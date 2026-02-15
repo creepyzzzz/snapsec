@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldAlert, ShieldCheck, Activity, Zap, Search, AlertOctagon, XCircle, CheckCircle2, Terminal } from 'lucide-react';
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { AnimatedNumber } from '@/components/ui/animated-number';
 
@@ -10,11 +11,11 @@ import { AnimatedNumber } from '@/components/ui/animated-number';
 
 const StatusBadge = ({ status }: { status: "Critical" | "High" | "Medium" | "Low" | "Mitigated" }) => {
     const styles = {
-        "Critical": "bg-zinc-800 text-zinc-200 border-zinc-700",
-        "High": "bg-zinc-800 text-zinc-300 border-zinc-700",
-        "Medium": "bg-zinc-900 text-zinc-500 border-zinc-800",
-        "Low": "bg-zinc-900 text-zinc-600 border-zinc-800",
-        "Mitigated": "bg-transparent text-zinc-500 border-zinc-800 border-dashed",
+        "Critical": "bg-zinc-900 dark:bg-black text-white dark:text-zinc-200 border-zinc-900 dark:border-zinc-700",
+        "High": "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700",
+        "Medium": "bg-zinc-50 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-500 border-zinc-200 dark:border-zinc-800",
+        "Low": "bg-zinc-50 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-600 border-zinc-200 dark:border-zinc-800",
+        "Mitigated": "bg-transparent text-zinc-400 dark:text-zinc-500 border-zinc-200 dark:border-zinc-800 border-dashed",
     };
 
     return (
@@ -28,54 +29,64 @@ const ThreatRow = ({ type, source, status, time }: { type: string, source: strin
     <motion.div
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
-        className="flex items-center justify-between p-2 rounded-md border border-zinc-800/40 bg-zinc-900/20 hover:bg-zinc-800/40 transition-colors group cursor-default"
+        className="flex items-center justify-between p-2 rounded-md border border-zinc-100 dark:border-zinc-800/40 bg-zinc-50/50 dark:bg-zinc-900/20 hover:bg-zinc-100 dark:hover:bg-zinc-800/40 transition-colors group cursor-default"
     >
         <div className="flex items-center gap-2.5">
             <div className={cn("w-1.5 h-1.5 rounded-full",
-                status === 'Critical' ? 'bg-zinc-100 shadow-[0_0_8px_rgba(255,255,255,0.4)]' :
-                    status === 'High' ? 'bg-zinc-500' :
-                        'bg-zinc-800')}
+                status === 'Critical' ? 'bg-zinc-900 dark:bg-zinc-100 shadow-[0_0_8px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(255,255,255,0.4)]' :
+                    status === 'High' ? 'bg-zinc-400 dark:bg-zinc-500' :
+                        'bg-zinc-200 dark:bg-zinc-800')}
             />
             <div className="flex flex-col">
-                <span className="text-[10px] font-medium text-zinc-300 group-hover:text-white transition-colors">{type}</span>
-                <span className="text-[8px] text-zinc-500 font-mono">{source}</span>
+                <span className="text-[10px] font-medium text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors">{type}</span>
+                <span className="text-[8px] text-zinc-400 dark:text-zinc-500 font-mono">{source}</span>
             </div>
         </div>
         <div className="flex items-center gap-3">
-            <span className="text-[8px] text-zinc-600 font-mono">{time}</span>
+            <span className="text-[8px] text-zinc-400 dark:text-zinc-600 font-mono">{time}</span>
             <StatusBadge status={status} />
         </div>
     </motion.div>
 );
 
 const RadarScanner = () => {
+    const { resolvedTheme } = useTheme();
     return (
         <div className="relative w-full aspect-square max-w-[180px] mx-auto flex items-center justify-center opacity-90">
             {/* Radar Background Rings */}
-            <div className="absolute inset-0 rounded-full border border-zinc-800/30" />
-            <div className="absolute inset-4 rounded-full border border-zinc-800/30" />
-            <div className="absolute inset-8 rounded-full border border-zinc-800/30" />
+            <div className="absolute inset-0 rounded-full border border-zinc-200 dark:border-zinc-800/30" />
+            <div className="absolute inset-4 rounded-full border border-zinc-200 dark:border-zinc-800/30" />
+            <div className="absolute inset-8 rounded-full border border-zinc-200 dark:border-zinc-800/30" />
 
             {/* Crosshairs */}
-            <div className="absolute top-0 bottom-0 w-[1px] bg-zinc-800/30" />
-            <div className="absolute left-0 right-0 h-[1px] bg-zinc-800/30" />
+            <div className="absolute top-0 bottom-0 w-[1px] bg-zinc-200 dark:bg-zinc-800/30" />
+            <div className="absolute left-0 right-0 h-[1px] bg-zinc-200 dark:bg-zinc-800/30" />
 
             {/* Scanning Line */}
             <motion.div
-                className="absolute w-1/2 h-1/2 top-0 right-0 origin-bottom-left bg-gradient-to-t from-transparent to-zinc-200/5"
-                style={{ borderLeft: '1px solid rgba(255, 255, 255, 0.1)' }}
+                className="absolute inset-0 rounded-full"
+                style={{
+                    background: resolvedTheme === 'dark'
+                        ? 'conic-gradient(from 0deg, transparent 0deg, rgba(255, 255, 255, 0.1) 360deg)'
+                        : 'conic-gradient(from 0deg, transparent 0deg, rgba(0, 0, 0, 0.1) 360deg)',
+                }}
                 animate={{ rotate: 360 }}
                 transition={{ duration: 4, ease: "linear", repeat: Infinity }}
-            />
+            >
+                <div className={cn(
+                    "absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-1/2 origin-bottom",
+                    resolvedTheme === 'dark' ? "bg-zinc-200/30 shadow-[0_0_10px_rgba(255,255,255,0.5)]" : "bg-zinc-900/20"
+                )} />
+            </motion.div>
 
-            {/* Blips - Monochrome */}
+            {/* Blips */}
             <motion.div
-                className="absolute top-6 right-8 w-1.5 h-1.5 bg-zinc-100 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+                className="absolute top-6 right-8 w-1.5 h-1.5 bg-zinc-900 dark:bg-zinc-100 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(255,255,255,0.5)]"
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
             />
             <motion.div
-                className="absolute bottom-10 left-12 w-1.5 h-1.5 bg-zinc-600 rounded-full"
+                className="absolute bottom-10 left-12 w-1.5 h-1.5 bg-zinc-400 dark:bg-zinc-600 rounded-full"
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 2, repeat: Infinity, delay: 2.5 }}
             />
@@ -86,22 +97,24 @@ const RadarScanner = () => {
 // --- Main Component ---
 
 export const ThreatManagementDashboard = () => {
+    const { resolvedTheme } = useTheme();
+
     return (
         <div className="w-full h-full flex flex-col font-sans select-none p-1 sm:p-2 overflow-hidden">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-full h-full mx-auto rounded-lg border border-zinc-800/60 bg-black/60 backdrop-blur-2xl shadow-2xl shadow-black/80 flex flex-col"
+                className="w-full h-full mx-auto rounded-lg border border-zinc-200 dark:border-zinc-800/60 bg-white/60 dark:bg-black/60 backdrop-blur-2xl flex flex-col"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-3 py-2 border-b border-zinc-800/60 bg-zinc-900/50 rounded-t-lg select-none backdrop-blur-md">
+                <div className="flex items-center justify-between px-3 py-2 border-b border-zinc-200 dark:border-zinc-800/60 bg-zinc-50 dark:bg-zinc-900/50 rounded-t-lg select-none backdrop-blur-md">
                     <div className="flex gap-1.5">
                         <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] border border-[#E0443E]/50 shadow-sm" />
                         <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] border border-[#DEA123]/50 shadow-sm" />
                         <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F] border border-[#1AAB29]/50 shadow-sm" />
                     </div>
-                    <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-medium text-zinc-500/80">
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-medium text-zinc-400 dark:text-zinc-500/80">
                         <ShieldAlert className="w-3 h-3" />
                         <span>Threat Response Center</span>
                     </div>
@@ -112,36 +125,36 @@ export const ThreatManagementDashboard = () => {
 
                     {/* Top KPI Cards */}
                     <div className="grid grid-cols-3 gap-2.5 shrink-0">
-                        <div className="bg-zinc-900/40 border border-zinc-800/40 rounded-lg p-2.5 flex flex-col relative overflow-hidden group">
+                        <div className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/40 rounded-lg p-2.5 flex flex-col relative overflow-hidden group shadow-sm dark:shadow-none transition-all duration-300">
                             <div className="flex items-start justify-between z-10">
                                 <span className="text-[9px] text-zinc-500 uppercase tracking-wider font-medium">Threat Level</span>
-                                <Activity className="w-3 h-3 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
+                                <Activity className="w-3 h-3 text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors" />
                             </div>
                             <div className="mt-1 z-10">
-                                <span className="text-lg font-medium text-zinc-200">Moderate</span>
+                                <span className="text-lg font-medium text-zinc-900 dark:text-zinc-200">Moderate</span>
                             </div>
                         </div>
 
-                        <div className="bg-zinc-900/40 border border-zinc-800/40 rounded-lg p-2.5 flex flex-col relative overflow-hidden group">
+                        <div className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/40 rounded-lg p-2.5 flex flex-col relative overflow-hidden group shadow-sm dark:shadow-none transition-all duration-300">
                             <div className="flex items-start justify-between z-10">
                                 <span className="text-[9px] text-zinc-500 uppercase tracking-wider font-medium">Active Incidents</span>
-                                <AlertOctagon className="w-3 h-3 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
+                                <AlertOctagon className="w-3 h-3 text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors" />
                             </div>
                             <div className="mt-1 z-10 flex items-baseline gap-1">
-                                <span className="text-lg font-medium text-zinc-200">
+                                <span className="text-lg font-medium text-zinc-900 dark:text-zinc-200">
                                     <AnimatedNumber value={3} springOptions={{ bounce: 0, duration: 2000 }} />
                                 </span>
-                                <span className="text-[9px] text-zinc-500">Processing</span>
+                                <span className="text-[9px] text-zinc-400 dark:text-zinc-500">Processing</span>
                             </div>
                         </div>
 
-                        <div className="bg-zinc-900/40 border border-zinc-800/40 rounded-lg p-2.5 flex flex-col relative overflow-hidden group">
+                        <div className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/40 rounded-lg p-2.5 flex flex-col relative overflow-hidden group shadow-sm dark:shadow-none transition-all duration-300">
                             <div className="flex items-start justify-between z-10">
                                 <span className="text-[9px] text-zinc-500 uppercase tracking-wider font-medium">MTTR</span>
-                                <Zap className="w-3 h-3 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
+                                <Zap className="w-3 h-3 text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors" />
                             </div>
                             <div className="mt-1 z-10 flex items-baseline gap-1">
-                                <span className="text-lg font-medium text-zinc-200">
+                                <span className="text-lg font-medium text-zinc-900 dark:text-zinc-200">
                                     <AnimatedNumber value={12} springOptions={{ bounce: 0, duration: 2000 }} />s
                                 </span>
                                 <span className="text-[9px] text-zinc-500">−15%</span>
@@ -153,21 +166,21 @@ export const ThreatManagementDashboard = () => {
                     <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2.5 min-h-0">
 
                         {/* Radar Section */}
-                        <div className="md:col-span-1 bg-zinc-900/40 border border-zinc-800/40 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
+                        <div className="md:col-span-1 bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/40 rounded-lg p-4 flex flex-col items-center justify-center gap-4 shadow-sm dark:shadow-none transition-all duration-300">
                             <h3 className="w-full text-[10px] font-medium text-zinc-500 uppercase tracking-wider text-center">Perimeter Scan</h3>
                             <RadarScanner />
-                            <div className="flex gap-4 text-[9px] text-zinc-500 font-mono">
-                                <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-zinc-600 rounded-full" /> NET</span>
-                                <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-zinc-600 rounded-full" /> HOST</span>
-                                <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-zinc-600 rounded-full" /> CLOUD</span>
+                            <div className="flex gap-4 text-[9px] text-zinc-400 dark:text-zinc-500 font-mono">
+                                <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-zinc-200 dark:bg-zinc-600 rounded-full" /> NET</span>
+                                <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-zinc-200 dark:bg-zinc-600 rounded-full" /> HOST</span>
+                                <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-zinc-200 dark:bg-zinc-600 rounded-full" /> CLOUD</span>
                             </div>
                         </div>
 
                         {/* Recent Alerts Feed */}
-                        <div className="md:col-span-2 bg-zinc-900/40 border border-zinc-800/40 rounded-lg p-0 flex flex-col overflow-hidden">
-                            <div className="flex items-center justify-between p-3 border-b border-zinc-800/40 bg-zinc-900/20">
-                                <h3 className="text-[11px] font-medium text-zinc-300">Live Incident Feed</h3>
-                                <Terminal className="w-3 h-3 text-zinc-600" />
+                        <div className="md:col-span-2 bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/40 rounded-lg p-0 flex flex-col overflow-hidden shadow-sm dark:shadow-none transition-all duration-300">
+                            <div className="flex items-center justify-between p-3 border-b border-zinc-100 dark:border-zinc-800/40 bg-zinc-50 dark:bg-zinc-900/20">
+                                <h3 className="text-[11px] font-medium text-zinc-600 dark:text-zinc-300">Live Incident Feed</h3>
+                                <Terminal className="w-3 h-3 text-zinc-300 dark:text-zinc-600" />
                             </div>
                             <div className="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-2">
                                 <ThreatRow type="Ransomware Pattern" source="finance-server-01" status="Critical" time="Now" />

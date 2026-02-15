@@ -1,6 +1,5 @@
-"use client";
-
 import React, { forwardRef, useRef } from "react";
+import { useTheme } from "next-themes";
 import { AnimatedBeam } from "@/components/ui/animated-beam";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +11,7 @@ const Circle = forwardRef<
         <div
             ref={ref}
             className={cn(
-                "z-10 flex size-8 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800/80 p-1.5 shadow-lg",
+                "z-10 flex size-8 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800/80 p-1.5 shadow-sm dark:shadow-none",
                 className
             )}
         >
@@ -36,7 +35,7 @@ const Icons = {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-zinc-400"
+            className="text-zinc-500 dark:text-zinc-400"
         >
             <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
             <line x1="8" y1="21" x2="16" y2="21" />
@@ -54,7 +53,7 @@ const Icons = {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-white"
+            className="text-zinc-950 dark:text-white"
         >
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -71,7 +70,7 @@ const Icons = {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-zinc-400"
+            className="text-zinc-500 dark:text-zinc-400"
         >
             <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
             <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
@@ -90,7 +89,7 @@ const Icons = {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-zinc-400"
+            className="text-zinc-500 dark:text-zinc-400"
         >
             <ellipse cx="12" cy="5" rx="9" ry="3" />
             <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
@@ -108,7 +107,7 @@ const Icons = {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-zinc-400"
+            className="text-zinc-500 dark:text-zinc-400"
         >
             <path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2" />
             <path d="m6 17 3.13-5.78c.53-.97.1-2.18-.5-3.1a4 4 0 1 1 6.89-4.06" />
@@ -118,12 +117,17 @@ const Icons = {
 };
 
 export const ApiSecurityVisual = () => {
+    const { resolvedTheme } = useTheme();
     const containerRef = useRef<HTMLDivElement>(null);
     const clientRef = useRef<HTMLDivElement>(null);
     const securityRef = useRef<HTMLDivElement>(null);
     const serverRef = useRef<HTMLDivElement>(null);
     const databaseRef = useRef<HTMLDivElement>(null);
     const webhookRef = useRef<HTMLDivElement>(null);
+
+    const pathColor = resolvedTheme === 'dark' ? "#3f3f46" : "#e4e4e7";
+    const gradientStartColor = resolvedTheme === 'dark' ? "#a1a1aa" : "#71717a";
+    const gradientStopColor = resolvedTheme === 'dark' ? "#ffffff" : "#18181b";
 
     return (
         <div
@@ -145,7 +149,7 @@ export const ApiSecurityVisual = () => {
                 <div className="flex flex-col justify-center">
                     <Circle
                         ref={securityRef}
-                        className="size-10 border-zinc-600 bg-zinc-700/50 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                        className="size-10 border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-700/50 shadow-[0_0_15px_rgba(255,255,255,0.1)] dark:shadow-none"
                     >
                         <Icons.lock />
                     </Circle>
@@ -168,11 +172,11 @@ export const ApiSecurityVisual = () => {
                 fromRef={clientRef}
                 toRef={securityRef}
                 curvature={15}
-                pathColor="#3f3f46"
+                pathColor={pathColor}
                 pathWidth={1.5}
                 pathOpacity={0.3}
-                gradientStartColor="#a1a1aa"
-                gradientStopColor="#ffffff"
+                gradientStartColor={gradientStartColor}
+                gradientStopColor={gradientStopColor}
                 duration={3}
                 delay={0}
             />
@@ -181,11 +185,11 @@ export const ApiSecurityVisual = () => {
                 fromRef={webhookRef}
                 toRef={securityRef}
                 curvature={-15}
-                pathColor="#3f3f46"
+                pathColor={pathColor}
                 pathWidth={1.5}
                 pathOpacity={0.3}
-                gradientStartColor="#a1a1aa"
-                gradientStopColor="#ffffff"
+                gradientStartColor={gradientStartColor}
+                gradientStopColor={gradientStopColor}
                 duration={3.5}
                 delay={0.5}
             />
@@ -196,11 +200,11 @@ export const ApiSecurityVisual = () => {
                 fromRef={securityRef}
                 toRef={serverRef}
                 curvature={15}
-                pathColor="#3f3f46"
+                pathColor={pathColor}
                 pathWidth={1.5}
                 pathOpacity={0.3}
-                gradientStartColor="#ffffff"
-                gradientStopColor="#71717a"
+                gradientStartColor={gradientStopColor}
+                gradientStopColor={gradientStartColor}
                 duration={3}
                 delay={1}
             />
@@ -209,11 +213,11 @@ export const ApiSecurityVisual = () => {
                 fromRef={securityRef}
                 toRef={databaseRef}
                 curvature={-15}
-                pathColor="#3f3f46"
+                pathColor={pathColor}
                 pathWidth={1.5}
                 pathOpacity={0.3}
-                gradientStartColor="#ffffff"
-                gradientStopColor="#71717a"
+                gradientStartColor={gradientStopColor}
+                gradientStopColor={gradientStartColor}
                 duration={3.5}
                 delay={1.5}
             />

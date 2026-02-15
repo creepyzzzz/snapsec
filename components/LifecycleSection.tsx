@@ -93,22 +93,22 @@ const LifecycleSection: React.FC = () => {
     const content = tabContent[activeTab];
 
     return (
-        <section className="py-24 bg-black">
+        <section className="py-24 bg-white dark:bg-black">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="mb-12">
-                    <h3 className="text-lg font-medium text-white mb-2">Security lifecycle, end to end</h3>
-                    <p className="text-zinc-500 text-sm">Snapsec connects inventory, modeling, testing, triage, and remediation into one continuous workflow—so teams ship faster with confidence.</p>
+                    <h3 className="text-xl font-medium text-zinc-950 dark:text-white mb-2">Security lifecycle, end to end</h3>
+                    <p className="text-zinc-600 dark:text-zinc-500 text-base">Snapsec connects inventory, modeling, testing, triage, and remediation into one continuous workflow—so teams ship faster with confidence.</p>
                 </div>
 
                 {/* Tabs */}
-                <div className="flex flex-wrap gap-2 mb-12 border-b border-zinc-900 pb-4">
+                <div className="flex flex-wrap gap-2 mb-12 border-b border-zinc-200 dark:border-zinc-900 pb-4">
                     {tabs.map((tab, index) => (
                         <button
                             key={index}
                             onClick={() => setActiveTab(index)}
-                            className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 border ${activeTab === index
-                                ? 'bg-white text-black border-white'
-                                : 'bg-transparent text-zinc-500 border-zinc-800 hover:border-zinc-700 hover:text-zinc-300'
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${activeTab === index
+                                ? 'bg-zinc-900 dark:bg-white text-white dark:text-black border-zinc-900 dark:border-white'
+                                : 'bg-transparent text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-300'
                                 }`}
                         >
                             {tab}
@@ -117,19 +117,19 @@ const LifecycleSection: React.FC = () => {
                 </div>
 
                 {/* Content Area */}
-                <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 md:p-12 min-h-[500px] flex flex-col md:flex-row gap-12">
+                <div className="bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 md:p-12 min-h-[500px] flex flex-col md:flex-row gap-12">
                     <div className="md:w-1/3 flex flex-col justify-center">
-                        <h3 className="text-2xl font-medium text-white mb-6 tracking-tight">{content.title}</h3>
-                        <p className="text-zinc-400 text-sm leading-relaxed mb-8">
+                        <h3 className="text-3xl font-medium text-zinc-950 dark:text-white mb-6 tracking-tight">{content.title}</h3>
+                        <p className="text-zinc-600 dark:text-zinc-400 text-base leading-relaxed mb-8">
                             {content.description}
                         </p>
 
                         <div className="space-y-6">
                             <div>
-                                <h4 className="text-white text-sm font-medium mb-2 uppercase tracking-wider text-[10px]">How Snapsec Helps</h4>
+                                <h4 className="text-zinc-500 dark:text-zinc-400 text-base font-medium mb-2 uppercase tracking-wider text-[11px]">How Snapsec Helps</h4>
                                 <ul className="space-y-2">
                                     {content.benefits.map((benefit, i) => (
-                                        <li key={i} className="flex items-start gap-2 text-xs text-zinc-500">
+                                        <li key={i} className="flex items-start gap-2 text-[13px] text-zinc-600 dark:text-zinc-500">
                                             <span className="text-zinc-400">•</span> {benefit}
                                         </li>
                                     ))}
@@ -137,8 +137,8 @@ const LifecycleSection: React.FC = () => {
                             </div>
 
                             <div>
-                                <h4 className="text-white text-sm font-medium mb-2 uppercase tracking-wider text-[10px]">Outcome Signal</h4>
-                                <p className="text-xs text-zinc-500 leading-relaxed">
+                                <h4 className="text-zinc-500 dark:text-zinc-400 text-base font-medium mb-2 uppercase tracking-wider text-[11px]">Outcome Signal</h4>
+                                <p className="text-[13px] text-zinc-600 dark:text-zinc-500 leading-relaxed">
                                     {content.outcome}
                                 </p>
                             </div>

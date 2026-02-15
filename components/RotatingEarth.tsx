@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useTheme } from "next-themes"
 import * as d3 from "d3"
 
 interface RotatingEarthProps {
@@ -10,6 +11,7 @@ interface RotatingEarthProps {
 }
 
 export default function RotatingEarth({ width = 800, height = 600, className = "" }: RotatingEarthProps) {
+    const { resolvedTheme } = useTheme()
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -142,9 +144,9 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
             // Draw ocean (globe background)
             context.beginPath()
             context.arc(containerWidth / 2, containerHeight / 2, currentScale, 0, 2 * Math.PI)
-            context.fillStyle = "#000000"
+            context.fillStyle = resolvedTheme === 'dark' ? "#000000" : "#ffffff"
             context.fill()
-            context.strokeStyle = "#ffffff"
+            context.strokeStyle = resolvedTheme === 'dark' ? "#ffffff" : "#000000"
             context.lineWidth = 2 * scaleFactor
             context.stroke()
 
@@ -153,7 +155,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
                 const graticule = d3.geoGraticule()
                 context.beginPath()
                 path(graticule())
-                context.strokeStyle = "#ffffff"
+                context.strokeStyle = resolvedTheme === 'dark' ? "#ffffff" : "#000000"
                 context.lineWidth = 1 * scaleFactor
                 context.globalAlpha = 0.25
                 context.stroke()
@@ -164,7 +166,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
                 landFeatures.features.forEach((feature: any) => {
                     path(feature)
                 })
-                context.strokeStyle = "#ffffff"
+                context.strokeStyle = resolvedTheme === 'dark' ? "#ffffff" : "#000000"
                 context.lineWidth = 1 * scaleFactor
                 context.stroke()
 
@@ -180,7 +182,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
                     ) {
                         context.beginPath()
                         context.arc(projected[0], projected[1], 1.2 * scaleFactor, 0, 2 * Math.PI)
-                        context.fillStyle = "#999999"
+                        context.fillStyle = resolvedTheme === 'dark' ? "#999999" : "#666666"
                         context.fill()
                     }
                 })
@@ -238,14 +240,14 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
         return () => {
             rotationTimer.stop()
         }
-    }, [width, height])
+    }, [width, height, resolvedTheme])
 
     if (error) {
         return (
-            <div className={`dark flex items-center justify-center bg-card rounded-2xl p-8 ${className}`}>
+            <div className={`flex items-center justify-center bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-8 ${className}`}>
                 <div className="text-center">
-                    <p className="dark text-destructive font-semibold mb-2">Error loading Earth visualization</p>
-                    <p className="dark text-muted-foreground text-sm">{error}</p>
+                    <p className="text-red-500 dark:text-red-400 font-semibold mb-2">Error loading Earth visualization</p>
+                    <p className="text-zinc-600 dark:text-zinc-400 text-sm">{error}</p>
                 </div>
             </div>
         )
@@ -255,7 +257,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
         <div className={`relative ${className}`}>
             <canvas
                 ref={canvasRef}
-                className="w-full h-auto rounded-2xl bg-background dark"
+                className="w-full h-auto rounded-2xl bg-transparent"
                 style={{ maxWidth: "100%", height: "auto" }}
             />
         </div>

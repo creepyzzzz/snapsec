@@ -24,14 +24,25 @@ export const metadata: Metadata = {
     manifest: '/site.webmanifest',
 };
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+
 export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="dark">
-            <body className={`${spaceGrotesk.className} antialiased overflow-x-hidden`}>{children}</body>
+        <html lang="en" suppressHydrationWarning>
+            <body className={`${spaceGrotesk.className} antialiased overflow-x-hidden`}>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="dark"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    {children}
+                </ThemeProvider>
+            </body>
         </html>
     );
 }

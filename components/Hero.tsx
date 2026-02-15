@@ -3,7 +3,10 @@
 import React, { useEffect, useRef } from 'react';
 import DitherShader from '@/components/ui/dither-shader';
 
+import { useTheme } from 'next-themes';
+
 const Hero: React.FC = () => {
+  const { resolvedTheme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -55,58 +58,73 @@ const Hero: React.FC = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
 
+    let time = 0;
+
     const draw = () => {
       // Smooth follow
       currentX += (mouseX - currentX) * 0.08;
       currentY += (mouseY - currentY) * 0.08;
 
+      // Increment time for continuous wave
+      time += 0.015;
+
       ctx.clearRect(0, 0, width, height);
 
       // We want a dark background, so dots will be the 'light'
-      // Color: Zinc-600/500ish but represented as simple fill
-      ctx.fillStyle = '#52525b'; // zinc-600
+      ctx.fillStyle = resolvedTheme === 'dark' ? '#52525b' : '#d4d4d8';
 
-      // Optimization: Only scan relevant area
-      const startX = Math.floor((currentX - LIGHT_RADIUS) / GRID_SPACING) * GRID_SPACING;
-      const endX = Math.ceil((currentX + LIGHT_RADIUS) / GRID_SPACING) * GRID_SPACING;
-      const startY = Math.floor((currentY - LIGHT_RADIUS) / GRID_SPACING) * GRID_SPACING;
-      const endY = Math.ceil((currentY + LIGHT_RADIUS) / GRID_SPACING) * GRID_SPACING;
+      // Scan the entire canvas, but optimize loop
+      // We increased GRID_SPACING to 6, which is good.
+      // We can also skip rendering far outside the viewport if needed, but here we render full screen
+      // to ensure continuous movement.
 
-      // Clamp
-      const drawStartX = Math.max(0, startX);
-      const drawEndX = Math.min(width, endX);
-      const drawStartY = Math.max(0, startY);
-      const drawEndY = Math.min(height, endY);
+      // Pre-calculate some constants
+      const freqX = 0.003;
+      const freqY = 0.003;
+      const waveSpeed = 2.0;
 
-      for (let x = drawStartX; x < drawEndX; x += GRID_SPACING) {
-        for (let y = drawStartY; y < drawEndY; y += GRID_SPACING) {
-          // Distance calc
+      for (let x = 0; x < width; x += GRID_SPACING) {
+        for (let y = 0; y < height; y += GRID_SPACING) {
+
+          // 1. Calculate Base Wave Intensity (Ambient Movement)
+          // Simple sine wave interference pattern
+          const wave1 = Math.sin(x * freqX + time);
+          const wave2 = Math.cos(y * freqY + time * 0.5);
+          const noise = (wave1 + wave2) * 0.5; // Range -1 to 1 basically
+
+          // Map to 0-1 range but keep it subtle
+          // We want a base level of activity everywhere
+          let baseIntensity = (noise * 0.5 + 0.5) * 0.15; // Max 0.15 intensity from waves
+
+          // 2. Calculate Mouse Interaction (Spotlight/Distortion)
           const dx = x - currentX;
           const dy = y - currentY;
           const distSquared = dx * dx + dy * dy;
           const maxDistSquared = LIGHT_RADIUS * LIGHT_RADIUS;
 
+          let mouseIntensity = 0;
           if (distSquared < maxDistSquared) {
             const dist = Math.sqrt(distSquared);
-            // Intensity 0 to 1 (1 at center)
-            let intensity = 1 - dist / LIGHT_RADIUS;
+            mouseIntensity = 1 - dist / LIGHT_RADIUS;
+            mouseIntensity = Math.pow(mouseIntensity, 2); // Falloff
+          }
 
-            // Adjust intensity curve for better falloff
-            intensity = Math.pow(intensity, 2.5);
+          // Combine intensities
+          // Mouse interaction dominates, wave is subtle background
+          let intensity = baseIntensity + (mouseIntensity * 0.85);
 
-            // Bayer Dither Logic
-            // Map (x,y) to 4x4 matrix
-            const col = (x / GRID_SPACING) % 4;
-            const row = (y / GRID_SPACING) % 4;
-            const threshold = bayerMatrix[row][col] / 16;
+          // Bayer Dither Logic
+          const col = (x / GRID_SPACING) % 4;
+          const row = (y / GRID_SPACING) % 4;
+          const threshold = bayerMatrix[row][col] / 16;
 
-            // If intensity exceeds threshold, draw pixel
-            if (intensity > threshold) {
-              // Dimmer effect: Max alpha reduced from 1.0 to 0.5
-              // Base alpha 0.2, max additional 0.3
-              ctx.globalAlpha = 0.2 + (intensity * 0.3);
-              ctx.fillRect(x, y, DOT_SIZE, DOT_SIZE);
-            }
+          // If intensity exceeds threshold, draw pixel
+          if (intensity > threshold) {
+            // Calculate alpha based on how much we exceeded threshold
+            // This softens the transition
+            const excess = intensity - threshold;
+            ctx.globalAlpha = Math.min(1.0, 0.1 + excess * 1.5);
+            ctx.fillRect(x, y, DOT_SIZE, DOT_SIZE);
           }
         }
       }
@@ -122,10 +140,10 @@ const Hero: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [resolvedTheme]);
 
   return (
-    <section className="relative pt-24 pb-32 overflow-hidden bg-black">
+    <section className="relative pt-24 pb-32 overflow-hidden bg-white dark:bg-black">
       {/* Interactive Dither Background */}
       <canvas
         ref={canvasRef}
@@ -136,15 +154,15 @@ const Hero: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column: Text Content */}
           <div className="text-left">
-            <h1 className="text-5xl md:text-7xl font-medium tracking-tight text-white mb-6 leading-[1.1]">
+            <h1 className="text-5xl md:text-7xl font-medium tracking-tight text-zinc-950 dark:text-white mb-6 leading-[1.1]">
               Centralize your Application With Synapse Suite
             </h1>
-            <p className="text-lg md:text-xl text-zinc-400 max-w-xl mb-10 leading-relaxed font-light">
+            <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-xl mb-10 leading-relaxed font-light">
               Synapse Suite is a unified security platform with six integrated modules, designed to protect your application infrastructure at every layer.
             </p>
 
             <div className="flex justify-start mb-12">
-              <button className="bg-white text-black px-8 py-3.5 rounded-full text-base font-semibold hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95">
+              <button className="bg-zinc-900 dark:bg-white text-white dark:text-black px-8 py-3.5 rounded-full text-base font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95">
                 Request demo
               </button>
             </div>
@@ -158,8 +176,8 @@ const Hero: React.FC = () => {
                 gridSize={2}
                 ditherMode="bayer"
                 colorMode="grayscale"
-                primaryColor="#000000"
-                secondaryColor="#ffffff"
+                primaryColor={resolvedTheme === 'dark' ? '#ffffff' : '#000000'}
+                secondaryColor={resolvedTheme === 'dark' ? '#000000' : '#ffffff'}
                 backgroundColor="transparent"
                 threshold={0.55}
                 className="w-[85%] h-[85%] translate-x-6 -translate-y-6"
@@ -168,44 +186,44 @@ const Hero: React.FC = () => {
                 objectFit="contain"
               />
               {/* Overlay gradient for better integration */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40 pointer-events-none"></div>
+
             </div>
           </div>
         </div>
 
         {/* Trusted By - Animated Marquee */}
-        <div className="border-t border-zinc-900 pt-10">
+        <div className="border-t border-zinc-200 dark:border-zinc-900 pt-10">
           <p className="text-xs font-mono uppercase tracking-wider text-zinc-500 mb-8">Protecting the world's most innovative companies</p>
 
           {/* Marquee Container with Gradient Fade */}
           <div className="relative overflow-hidden">
             {/* Left gradient fade */}
-            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white dark:from-black to-transparent z-10 pointer-events-none"></div>
             {/* Right gradient fade */}
-            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white dark:from-black to-transparent z-10 pointer-events-none"></div>
 
             {/* Scrolling logos container */}
             <div className="flex w-max min-w-full animate-marquee">
               {/* First set of logos */}
               <div className="flex items-center gap-16 md:gap-24 shrink-0 px-8 md:px-12">
-                <img src="/logos/aws-dark-logo.svg" alt="AWS" className="h-8 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/azure-plain-wordmark-logo.svg" alt="Azure" className="h-14 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/cloudflare-logo.svg" alt="Cloudflare" className="h-6 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/datadog-logo.svg" alt="Datadog" className="h-8 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/digitalocean-original-wordmark-logo.svg" alt="DigitalOcean" className="h-10 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/mongodb-logo.svg" alt="MongoDB" className="h-7 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/vercel-logo.svg" alt="Vercel" className="h-6 w-auto brightness-0 invert transition-opacity" />
+                <img src="/logos/aws-dark-logo.svg" alt="AWS" className="h-8 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/azure-plain-wordmark-logo.svg" alt="Azure" className="h-14 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/cloudflare-logo.svg" alt="Cloudflare" className="h-6 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/datadog-logo.svg" alt="Datadog" className="h-8 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/digitalocean-original-wordmark-logo.svg" alt="DigitalOcean" className="h-10 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/mongodb-logo.svg" alt="MongoDB" className="h-7 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/vercel-logo.svg" alt="Vercel" className="h-6 w-auto grayscale brightness-0 dark:invert transition-opacity" />
               </div>
 
               {/* Duplicate set for seamless loop */}
               <div className="flex items-center gap-16 md:gap-24 shrink-0 px-8 md:px-12">
-                <img src="/logos/aws-dark-logo.svg" alt="AWS" className="h-8 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/azure-plain-wordmark-logo.svg" alt="Azure" className="h-14 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/cloudflare-logo.svg" alt="Cloudflare" className="h-6 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/datadog-logo.svg" alt="Datadog" className="h-8 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/digitalocean-original-wordmark-logo.svg" alt="DigitalOcean" className="h-10 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/mongodb-logo.svg" alt="MongoDB" className="h-7 w-auto brightness-0 invert transition-opacity" />
-                <img src="/logos/vercel-logo.svg" alt="Vercel" className="h-6 w-auto brightness-0 invert transition-opacity" />
+                <img src="/logos/aws-dark-logo.svg" alt="AWS" className="h-8 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/azure-plain-wordmark-logo.svg" alt="Azure" className="h-14 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/cloudflare-logo.svg" alt="Cloudflare" className="h-6 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/datadog-logo.svg" alt="Datadog" className="h-8 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/digitalocean-original-wordmark-logo.svg" alt="DigitalOcean" className="h-10 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/mongodb-logo.svg" alt="MongoDB" className="h-7 w-auto grayscale brightness-0 dark:invert transition-opacity" />
+                <img src="/logos/vercel-logo.svg" alt="Vercel" className="h-6 w-auto grayscale brightness-0 dark:invert transition-opacity" />
               </div>
             </div>
           </div>
