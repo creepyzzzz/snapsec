@@ -2,7 +2,7 @@ import React from 'react';
 import { Tilt } from './ui/tilt';
 import { Shield, Target, Database, Siren, Scan, Lock, ArrowRight } from 'lucide-react';
 
-import { ClientSideBar } from './ui/client-side-bar';
+
 
 const ProblemSection: React.FC = () => {
     return (
@@ -46,12 +46,6 @@ const ProblemSection: React.FC = () => {
                     <div className="md:col-span-1 lg:col-span-2">
                         <Tilt rotationFactor={4} isRevese springOptions={{ stiffness: 40, damping: 30, mass: 1 }} className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden group hover:border-zinc-300 dark:hover:border-zinc-700 flex flex-col h-full hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-zinc-900/50 transition-all duration-300">
                             <div className="h-40 relative overflow-hidden flex items-center justify-center border-b border-zinc-200/50 dark:border-zinc-800/50 bg-zinc-100/50 dark:bg-zinc-900/20">
-                                {/* Threat Waveform Graphic */}
-                                <div className="flex items-end gap-1 h-12 w-full px-16 justify-center opacity-40">
-                                    {Array.from({ length: 30 }).map((_, i) => (
-                                        <ClientSideBar key={i} index={i} />
-                                    ))}
-                                </div>
                             </div>
                             <div className="p-5 flex flex-col flex-grow bg-zinc-100/50 dark:bg-zinc-900/20">
                                 <div className="flex items-center gap-2 mb-2">
