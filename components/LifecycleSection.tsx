@@ -6,85 +6,85 @@ import { VulnerabilityDashboard } from './visualizations/VulnerabilityDashboard'
 import { AssetInventoryDashboard } from './visualizations/AssetInventoryDashboard';
 import { ThreatManagementDashboard } from './visualizations/ThreatManagementDashboard';
 import { VulnerabilityScanningDashboard } from './visualizations/VulnerabilityScanningDashboard';
-import { ApiSecurityDashboard } from './visualizations/ApiSecurityDashboard';
+import { ApiProtectionDashboard } from './visualizations/ApiSecurityDashboard';
 
 import { AttackSurfaceDashboard } from './visualizations/AttackSurfaceDashboard';
 
 const tabs = [
-    "Vulnerability Management",
-    "Attack Surface Management",
-    "Asset Inventory Management",
-    "Threat Management",
-    "Vulnerability Scanning",
-    "API Security"
+    "Vulnerability Intelligence",
+    "Active Surface Defense",
+    "Autonomous Discovery",
+    "Threat Hunting",
+    "Predictive Scanning",
+    "Deep API Defense"
 ];
 
 const tabContent = [
     {
-        title: "Vulnerability Management",
-        description: "Prioritize and remediate risks across your entire stack with intelligent scoring and automated patching workflows.",
+        title: "Vulnerability Intelligence",
+        description: "Focus your team on what matters. Aether correlates vulnerability data with real-world exploitability to build a prioritized remediation roadmap.",
         benefits: [
-            "AI-driven risk scoring based on real exploitability",
-            "Automated patch generation and validation",
-            "SLA tracking and remediation orchestration"
+            "Context-aware risk scoring based on actual exploitability",
+            "Automatic correlation of DAST, SAST, and SCA findings",
+            "Remediation prioritization centered on business impact"
         ],
-        outcome: "Vulnerability management shifts from a backlog of thousands to a streamlined remediation pipeline.",
+        outcome: "Move from a backlog of thousands to a streamlined pipeline of critical, actionable fixes.",
         visual: <VulnerabilityDashboard />
     },
     {
-        title: "Attack Surface Management",
-        description: "Continuously map your external perimeter and identify exposed services before they become targets for attackers.",
+        title: "Active Surface Defense",
+        description: "Map your external perimeter in real-time. Identify exposed services and shadow IT before they become entry points for attackers.",
         benefits: [
-            "Discovery of shadow IT and forgotten cloud assets",
-            "Real-time monitoring of port exposures and DNS changes",
-            "Subsidiary and vendor perimeter analysis"
+            "Continuous discovery of forgotten or unauthorized cloud assets",
+            "Real-time monitoring of port exposures and DNS mutations",
+            "Actionable intelligence on your true attack surface"
         ],
-        outcome: "Maintain a complete, real-time map of every entry point into your organization.",
+        outcome: "Maintain a complete, living map of every potential entry point into your organization.",
         visual: <AttackSurfaceDashboard />
     },
     {
-        title: "Asset Inventory Management",
-        description: "Maintain a real-time, comprehensive view of every service, database, and cloud resource across your organization.",
+        title: "Autonomous Discovery",
+        description: "You can't protect what you don't know exists. Aether provides zero-config visibility into every service and resource.",
         benefits: [
-            "Unified visibility across multi-cloud and on-prem",
-            "Automated classification of sensitive data stores",
-            "Dependency mapping and service ownership tracking"
+            "Unified visibility across multi-cloud and hybrid environments",
+            "Automated classification of databases and sensitive storage",
+            "Dependency mapping that reveals hidden service relationships"
         ],
-        outcome: "Stop securing what you don't know exists. Get 100% coverage of your digital estate.",
+        outcome: "Gain 100% coverage of your digital estate without the manual inventory overhead.",
         visual: <AssetInventoryDashboard />
     },
     {
-        title: "Threat Management",
-        description: "Proactively hunt and defend against advanced persistent threats with automated detection and incident response.",
+        title: "Proactive Threat Hunting",
+        description: "Detect sophisticated adversaries in minutes. Aether uses behavioral analysis to neutralize threats before they escalate.",
         benefits: [
-            "Behavioral analysis of anomalous system activity",
-            "Automated containment of compromised workloads",
-            "Continuous threat hunting based on latest TI"
+            "AI-driven detection of anomalous system and user activity",
+            "Automated containment of potentially compromised workloads",
+            "Continuous hunting based on the latest global threat intel"
         ],
-        outcome: "Detect and neutralize threats in minutes, not months, with autonomous response agents.",
+        outcome: "Neutralize threats at the point of origin with autonomous response agents.",
         visual: <ThreatManagementDashboard />
     },
     {
-        title: "Vulnerability Scanning",
-        description: "Continuous automated scanning to identify misconfigurations and known CVEs in your applications and infrastructure.",
+        title: "Predictive Scanning",
+        description: "High-fidelity protection testing integrated into your dev cycle. Catch misconfigurations before they reach production.",
         benefits: [
-            "Dast/Sast integration within CI/CD pipelines",
-            "Agentless scanning for cloud infra and buckets",
-            "Validation of security controls and guardrails"
+            "Seamless CI/CD integration for proactive risk identification",
+            "Agentless scanning that covers every corner of your cloud",
+            "Continuous validation of protection guardrails and policies"
         ],
-        outcome: "Catch vulnerabilities early in the dev cycle, reducing the cost of security fixes.",
+        outcome: "Reduce the cost of protection fixes by catching vulnerabilities early in the lifecycle.",
         visual: <VulnerabilityScanningDashboard />
     },
     {
-        title: "API Security",
-        description: "Deep inspection of API traffic to discover shadow endpoints, validate auth flows, and prevent sensitive data leakage.",
+        title: "Deep API Defense",
+        description: "Protect your APIs from the inside out. Validate schema, prevent data leakage, and stop logic-based attacks in real-time.",
         benefits: [
-            "Automatic OpenAPI/Swagger doc generation",
-            "Detection of BOLA and other logic vulnerabilities",
-            "PII Leakage prevention in headers and bodies"
+            "Automated discovery of shadow and undocumented endpoints",
+            "Real-time detection of BOLA and broken authentication flows",
+            "Deep traffic analysis to prevent PII and sensitive data leaks"
         ],
-        outcome: "Secure your APIs from the inside out with continuous schema validation and traffic analysis.",
-        visual: <ApiSecurityDashboard />
+        outcome: "Protect your most critical data pathways with continuous API schema validation.",
+        visual: <ApiProtectionDashboard />
     }
 ];
 
@@ -96,8 +96,8 @@ const LifecycleSection: React.FC = () => {
         <section className="py-24 bg-white dark:bg-black">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="mb-12">
-                    <h3 className="text-xl font-medium text-zinc-950 dark:text-white mb-2">Security lifecycle, end to end</h3>
-                    <p className="text-zinc-600 dark:text-zinc-500 text-base">Snapsec connects inventory, modeling, testing, triage, and remediation into one continuous workflow—so teams ship faster with confidence.</p>
+                    <h3 className="text-xl font-medium text-zinc-950 dark:text-white mb-2">Protection lifecycle, end to end</h3>
+                    <p className="text-zinc-600 dark:text-zinc-500 text-base">Aether connects inventory, modeling, testing, triage, and remediation into one continuous workflow—so teams ship faster with confidence.</p>
                 </div>
 
                 {/* Tabs */}
@@ -126,7 +126,7 @@ const LifecycleSection: React.FC = () => {
 
                         <div className="space-y-6">
                             <div>
-                                <h4 className="text-zinc-500 dark:text-zinc-400 text-base font-medium mb-2 uppercase tracking-wider text-[11px]">How Snapsec Helps</h4>
+                                <h4 className="text-zinc-500 dark:text-zinc-400 text-base font-medium mb-2 uppercase tracking-wider text-[11px]">How Aether Helps</h4>
                                 <ul className="space-y-2">
                                     {content.benefits.map((benefit, i) => (
                                         <li key={i} className="flex items-start gap-2 text-[13px] text-zinc-600 dark:text-zinc-500">

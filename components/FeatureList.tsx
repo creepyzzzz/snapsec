@@ -1,17 +1,26 @@
-import React from 'react';
+"use client";
+
+import React, { useRef } from 'react';
 import { Settings, Brain, Zap, Edit3, ShieldCheck } from 'lucide-react';
 import { BorderTrail } from '@/components/ui/border-trail';
+import { motion } from 'framer-motion';
 
 const FeatureList: React.FC = () => {
     return (
-        <section className="py-24 bg-white dark:bg-black overflow-hidden border-t border-zinc-200 dark:border-zinc-900">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-16">
+        <section className="py-24 bg-white dark:bg-black border-t border-zinc-200 dark:border-zinc-900">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-16 relative">
 
                 {/* Left Side - 3D Tunnel Effect & Text */}
-                <div className="lg:w-1/3 relative">
-                    <div className="sticky top-32">
+                <div className="lg:w-1/3 relative z-10">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="sticky top-32"
+                    >
                         {/* Abstract 3D Tunnel CSS simulation */}
-                        <div className="absolute -left-20 top-20 w-[600px] h-[600px] pointer-events-none opacity-30">
+                        <div className="absolute -left-20 -top-20 w-[600px] h-[600px] pointer-events-none opacity-30 -z-10">
                             <svg viewBox="0 0 400 400" className="w-full h-full animate-spin-slow" style={{ animationDuration: '60s' }}>
                                 <defs>
                                     <linearGradient id="tunnelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -32,42 +41,44 @@ const FeatureList: React.FC = () => {
                                 <path d="M12 6L6 9v3c0 3 2.5 5.5 6 7 3.5-1.5 6-4 6-7V9l-6-3z" fill="currentColor" fillOpacity="0.2" />
                                 <path d="M12 10l-3 1.5v1.5c0 1.5 1.25 2.75 3 3.5 1.75-.75 3-2 3-3.5v-1.5l-3-1.5z" fill="currentColor" fillOpacity="0.4" />
                             </svg>
-                            <span className="font-semibold text-base text-zinc-950 dark:text-white">Snapsec</span>
+                            <span className="font-semibold text-base text-zinc-950 dark:text-white">Aether</span>
                         </div>
 
-                        <h2 className="text-[34px] font-medium text-zinc-950 dark:text-white mb-2 relative z-10">Better decisions.</h2>
-                        <h2 className="text-[34px] font-medium text-zinc-950 dark:text-white mb-2 relative z-10">Faster outcomes.</h2>
-                        <h2 className="text-[34px] font-medium text-zinc-400 dark:text-zinc-500 mb-8 relative z-10">Not more findings.</h2>
+                        <div className="relative z-10">
+                            <h2 className="text-[34px] font-medium text-zinc-950 dark:text-white mb-2">Better decisions.</h2>
+                            <h2 className="text-[34px] font-medium text-zinc-950 dark:text-white mb-2">Faster outcomes.</h2>
+                            <h2 className="text-[34px] font-medium text-zinc-400 dark:text-zinc-500 mb-8">Not more alerts.</h2>
 
-                        <p className="text-zinc-600 dark:text-zinc-500 text-sm leading-relaxed max-w-xs relative z-10">
-                            Synapse Suite is built to run security AI in production: long-running agents with memory, sandboxed execution, and deterministic workflows you can audit.
-                        </p>
-                    </div>
+                            <p className="text-zinc-600 dark:text-zinc-500 text-sm leading-relaxed max-w-xs">
+                                Aether Sentinel is purpose-built to run protection intelligence in production: persistent agents with deep memory, isolated execution, and deterministic, auditable workflows.
+                            </p>
+                        </div>
+                    </motion.div>
                 </div>
 
                 {/* Right Side - Stack */}
                 <div className="lg:w-2/3 flex flex-col gap-4 relative z-10">
-                    {/* Card 1 */}
-                    <div className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative">
-                        <BorderTrail
-                            style={{
-                                background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))',
-                            }}
-                            size={100}
-                        />
+                    <motion.div 
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                        className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative"
+                    >
+                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
                         <Settings className="w-5 h-5 text-zinc-600 dark:text-zinc-400 mb-4" />
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Autonomous execution</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Synapse Suite adapts as systems change. The model and test techniques update, and the work continues; without restarting from scratch.</p>
-                    </div>
+                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Autonomous Execution</h3>
+                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Aether Sentinel adapts in real-time as your stack changes. Testing techniques evolve dynamically, ensuring protection never lags behind deployment.</p>
+                    </motion.div>
 
-                    {/* Card 2 - Active looking */}
-                    <div className="bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-300 dark:border-zinc-700 rounded-xl p-8 relative">
-                        <BorderTrail
-                            style={{
-                                background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))',
-                            }}
-                            size={100}
-                        />
+                    <motion.div 
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-300 dark:border-zinc-700 rounded-xl p-8 relative"
+                    >
+                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
                         <div className="flex justify-between items-start mb-4">
                             <Brain className="w-5 h-5 text-zinc-950 dark:text-white" />
                             <div className="flex gap-2">
@@ -75,48 +86,48 @@ const FeatureList: React.FC = () => {
                                 <button className="text-sm text-white dark:text-black font-medium px-3 py-1 rounded-full bg-zinc-900 dark:bg-white hover:bg-zinc-800 dark:hover:bg-gray-200">Request demo</button>
                             </div>
                         </div>
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Security reasoning grounded in system behavior</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Synapse Suite models how applications authenticate, authorize, and behave from real inputs (API docs, creds, responses), then tests hypotheses like a security engineer would.</p>
-                    </div>
+                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Behavioral Reasoning</h3>
+                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">The engine models how your applications authenticate and interact. It doesn't just scan—it reasons like a protection architect to find deep logic flaws.</p>
+                    </motion.div>
 
-                    {/* Card 3 */}
-                    <div className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative">
-                        <BorderTrail
-                            style={{
-                                background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))',
-                            }}
-                            size={100}
-                        />
+                    <motion.div 
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative"
+                    >
+                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
                         <Zap className="w-5 h-5 text-zinc-600 dark:text-zinc-400 mb-4" />
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Persistent memory across runs</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Architecture decisions, prior findings, validation results, accepted risk, and outcomes persist across workflows, so new work builds on what's already known instead of repeating discovery, setup, and reasoning.</p>
-                    </div>
+                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Persistent Context</h3>
+                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Historical data, prior findings, and validation results persist across every run. New workflows build on existing knowledge, eliminating redundant discovery.</p>
+                    </motion.div>
 
-                    {/* Card 4 */}
-                    <div className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative">
-                        <BorderTrail
-                            style={{
-                                background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))',
-                            }}
-                            size={100}
-                        />
+                    <motion.div 
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative"
+                    >
+                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
                         <Edit3 className="w-5 h-5 text-zinc-600 dark:text-zinc-400 mb-4" />
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Research-informed security testing</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Synapse Suite incorporates current security research and emerging attack techniques into its testing and analysis, so teams evaluate systems against real, contemporary threats rather than relying on static assumptions or outdated test cases.</p>
-                    </div>
+                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Contemporary Intelligence</h3>
+                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Aether Sentinel incorporates cutting-edge protection research in real-time, ensuring you are defended against the latest 0-day exploits and attack vectors.</p>
+                    </motion.div>
 
-                    {/* Card 5 */}
-                    <div className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative">
-                        <BorderTrail
-                            style={{
-                                background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))',
-                            }}
-                            size={100}
-                        />
+                    <motion.div 
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: 0.5 }}
+                        className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative"
+                    >
+                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
                         <ShieldCheck className="w-5 h-5 text-zinc-600 dark:text-zinc-400 mb-4" />
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Output quality</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Actual security checks-sandboxed execution with evidence you can verify, plus execution context, repro paths, and fix guidance-not speculative output.</p>
-                    </div>
+                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Verifiable Evidence</h3>
+                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">No more speculation. Every finding comes with a sandboxed reproduction path, clear execution context, and validated fix guidance.</p>
+                    </motion.div>
 
                 </div>
             </div>

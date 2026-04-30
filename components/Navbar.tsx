@@ -3,69 +3,62 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Shield, Globe, Database, AlertTriangle, Scan, Lock, FileCode, Cloud, Server, Layers, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Button from './ui/Button';
 
-const NavButton = ({ children }: { children: string }) => {
-  return (
-    <button
-      className="bg-zinc-900 dark:bg-white text-white dark:text-black px-4 py-2 rounded-full text-sm font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 duration-200 shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
-    >
-      {children}
-    </button>
-  )
-}
+
 
 const products = [
   {
-    title: "Vulnerability Management",
-    description: "Track, prioritize, and remediate vulnerabilities across your entire application portfolio.",
+    title: "Vulnerability Intelligence",
+    description: "Go beyond scanners. Correlate findings with real-world exploitability and business context.",
     icon: Shield
   },
   {
-    title: "Attack Surface Management",
-    description: "Continuously discover and monitor your external attack surface.",
+    title: "Active Surface Defense",
+    description: "Continuously map and monitor your external perimeter for shadow IT and exposures.",
     icon: Globe
   },
   {
-    title: "Asset Inventory Management",
-    description: "Maintain complete visibility of all digital assets with automated discovery.",
+    title: "Autonomous Discovery",
+    description: "Zero-config asset inventory that stays current as your infrastructure evolves.",
     icon: Database
   },
   {
-    title: "Threat Management",
-    description: "Detect, analyze, and respond to security threats with advanced intelligence.",
+    title: "Proactive Threat Hunting",
+    description: "Detect and neutralize sophisticated attackers with behavioral analysis and TI.",
     icon: AlertTriangle
   },
   {
-    title: "Vulnerability Scanning",
-    description: "Comprehensive automated scanning for web applications, APIs, and infrastructure.",
+    title: "Predictive Scanning",
+    description: "High-fidelity automated testing for web apps and APIs that eliminates false positives.",
     icon: Scan
   },
   {
-    title: "API Security",
-    description: "Protect your APIs with runtime protection and automated testing.",
+    title: "Deep API Protection",
+    description: "Protect your entire API ecosystem with runtime traffic analysis and schema validation.",
     icon: Lock
   }
 ];
 
 const useCases = [
   {
-    title: "AppSec Program",
-    description: "Build and scale a modern Application Security program from scratch.",
-    icon: FileCode
+    title: "Perimeter Defense",
+    description: "Continuously monitor and protect your external cloud boundaries and shadow IT.",
+    icon: Globe
   },
   {
-    title: "Cloud Security",
-    description: "Secure your cloud infrastructure across AWS, Azure, and GCP.",
-    icon: Cloud
-  },
-  {
-    title: "Compliance",
-    description: "Achieve and maintain compliance with SOC2, ISO 27001, and HIPAA.",
+    title: "Runtime Protection",
+    description: "Active defense for live applications and API ecosystems against emerging threats.",
     icon: Shield
   },
   {
-    title: "DevSecOps",
-    description: "Seamlessly integrate security into your CI/CD pipelines.",
+    title: "Automated Governance",
+    description: "Streamline compliance audits and policy enforcement across your entire organization.",
+    icon: Layers
+  },
+  {
+    title: "DevOps Integration",
+    description: "Embed high-fidelity protection directly into your development and CI/CD cycles.",
     icon: Server
   }
 ];
@@ -87,7 +80,7 @@ const Navbar: React.FC = () => {
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 ease-in-out border-b
         ${isScrolled
-          ? 'bg-white/50 dark:bg-black/50 backdrop-blur-xl border-zinc-200/50 dark:border-zinc-800/50 shadow-sm'
+          ? 'bg-white/80 dark:bg-black/80 backdrop-blur-xl border-blue-500/10 dark:border-blue-400/10 shadow-[0_4px_20px_-10px_rgba(37,99,235,0.15)]'
           : 'bg-transparent border-transparent'
         }
       `}
@@ -96,11 +89,21 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
-            <div className="relative w-6 h-6 flex items-center justify-center">
-              <img src="/apple-touch-icon.png" alt="Snapsec Logo" className="w-full h-full object-contain invert dark:invert-0" />
-            </div>
-            <span className="font-semibold text-lg tracking-tight text-zinc-950 dark:text-white group-hover:text-zinc-700 dark:group-hover:text-zinc-200 transition-colors">
-              Snapsec
+            <div 
+              className="w-6 h-6 bg-blue-600 dark:bg-blue-400 relative z-10 transition-all duration-500"
+              style={{
+                maskImage: 'url(/apple-touch-icon.png)',
+                maskSize: 'contain',
+                maskRepeat: 'no-repeat',
+                maskPosition: 'center',
+                WebkitMaskImage: 'url(/apple-touch-icon.png)',
+                WebkitMaskSize: 'contain',
+                WebkitMaskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+              }}
+            />
+            <span className="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-blue-600 to-white dark:from-blue-500 dark:to-white transition-all duration-500 uppercase">
+              Aether
             </span>
           </Link>
 
@@ -112,12 +115,12 @@ const Navbar: React.FC = () => {
               onMouseLeave={() => setActiveMenu(null)}
             >
               <button
-                className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${activeMenu === 'products'
-                    ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900'
+                className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeMenu === 'products'
+                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 bg-transparent'
                   }`}
               >
-                Products <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${activeMenu === 'products' ? 'rotate-180' : ''}`} />
+                Products <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${activeMenu === 'products' ? 'rotate-180 text-blue-500' : ''}`} />
               </button>
 
               <div
@@ -158,12 +161,12 @@ const Navbar: React.FC = () => {
               onMouseLeave={() => setActiveMenu(null)}
             >
               <button
-                className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${activeMenu === 'usecases'
-                    ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900'
+                className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeMenu === 'usecases'
+                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                    : 'text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 bg-transparent'
                   }`}
               >
-                Use Cases <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${activeMenu === 'usecases' ? 'rotate-180' : ''}`} />
+                Use Cases <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${activeMenu === 'usecases' ? 'rotate-180 text-blue-500' : ''}`} />
               </button>
 
               <div
@@ -198,20 +201,19 @@ const Navbar: React.FC = () => {
               </div>
             </div>
 
-            <Link href="#" className="px-4 py-2 rounded-full text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all duration-200">
-              Features
+            <Link href="#" className="px-4 py-2 rounded-full text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300 bg-transparent">
+              Documentation
             </Link>
-            <Link href="/blog" className="px-4 py-2 rounded-full text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all duration-200">
-              Blog
+            <Link href="#" className="px-4 py-2 rounded-full text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300 bg-transparent">
+              Pricing
             </Link>
           </div>
 
-          {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <button className="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors">
+            <button className="px-2 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 active:scale-[0.98] active:translate-y-[2px]">
               Sign in
             </button>
-            <NavButton>Request demo</NavButton>
+            <Button size="sm">Request demo</Button>
           </div>
 
           {/* Mobile menu button */}

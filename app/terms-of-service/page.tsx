@@ -27,14 +27,14 @@ export default function TermsOfService() {
                         <section className="mb-10">
                             <h2 className="text-2xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">1. Acceptance of Terms</h2>
                             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
-                                By accessing and using the website and services provided by Snapsec ("we", "our", or "us"), you agree to accept and be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
+                                By accessing and using the website and services provided by Aether ("we", "our", or "us"), you agree to accept and be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
                             </p>
                         </section>
 
                         <section className="mb-10">
                             <h2 className="text-2xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">2. Description of Service</h2>
                             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
-                                Snapsec provides a unified application security platform. We reserve the right to modify, suspend, or discontinue any part of the service at any time without notice. We shall not be liable to you or to any third party for any modification, suspension, or discontinuance of the service.
+                                Aether provides a unified application security platform. We reserve the right to modify, suspend, or discontinue any part of the service at any time without notice. We shall not be liable to you or to any third party for any modification, suspension, or discontinuance of the service.
                             </p>
                         </section>
 
@@ -48,14 +48,14 @@ export default function TermsOfService() {
                         <section className="mb-10">
                             <h2 className="text-2xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">4. Intellectual Property</h2>
                             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
-                                The service and its original content, features, and functionality are and will remain the exclusive property of Snapsec and its licensors. The service is protected by copyright, trademark, and other laws of the United States and foreign countries.
+                                The service and its original content, features, and functionality are and will remain the exclusive property of Aether and its licensors. The service is protected by copyright, trademark, and other laws of the United States and foreign countries.
                             </p>
                         </section>
 
                         <section className="mb-10">
                             <h2 className="text-2xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">5. Limitation of Liability</h2>
                             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                                In no event shall Snapsec, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the service.
+                                In no event shall Aether, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the service.
                             </p>
                         </section>
 

@@ -2,8 +2,11 @@
 
 import React, { useEffect, useRef } from 'react';
 import DitherShader from '@/components/ui/dither-shader';
+import Button from './ui/Button';
 
 import { useTheme } from 'next-themes';
+
+
 
 const Hero: React.FC = () => {
   const { resolvedTheme } = useTheme();
@@ -12,142 +15,140 @@ const Hero: React.FC = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     let animationFrameId: number;
     let width = 0;
     let height = 0;
-
-    const resizeCanvas = () => {
-      const parent = canvas.parentElement;
-      if (parent) {
-        width = canvas.width = parent.clientWidth;
-        height = canvas.height = parent.clientHeight;
-      }
-    };
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    // Bayer Matrix 4x4 for ordered dithering
-    // Normalized by dividing by 16 later
-    const bayerMatrix = [
-      [0, 8, 2, 10],
-      [12, 4, 14, 6],
-      [3, 11, 1, 9],
-      [15, 7, 13, 5]
-    ];
+    let imageData: ImageData;
+    let pixels: Uint8ClampedArray;
 
     // Configuration
-    const GRID_SPACING = 6; // Increased from 4 for chunkier pixels
-    const DOT_SIZE = 3; // Increased to match grid scaling
-    const LIGHT_RADIUS = 800; // Larger light radius
+    const PIXEL_SIZE = 6;
+    const PIXEL_DENSITY = 600; // Balanced density to define the crescent shape
+    const LIGHT_R = 700;
+    const LIGHT_R_SQ = LIGHT_R * LIGHT_R;
 
-    // State
-    let mouseX = width / 2;
-    let mouseY = height / 2;
-    let currentX = width / 2;
-    let currentY = height / 2;
+    // Unified Blue Palette - Adapt to theme
+    const isDark = resolvedTheme === 'dark';
+    const BR = isDark ? 37 : 59; 
+    const BG = isDark ? 99 : 130; 
+    const BB = isDark ? 235 : 246; // blue-600 in dark, blue-400/500 in light
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
+    // Points state
+    let points: { x: number, y: number, isBlue: boolean, threshold: number }[] = [];
+
+    const generatePoints = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      width = canvas.width = parent.clientWidth;
+      height = canvas.height = parent.clientHeight;
+      imageData = ctx.createImageData(width, height);
+      pixels = imageData.data;
+
+      const numPoints = Math.floor((width * height) / PIXEL_DENSITY);
+      points = Array.from({ length: numPoints }).map(() => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        isBlue: true,
+        threshold: Math.random() * 0.15 
+      }));
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('resize', generatePoints);
+    generatePoints();
 
     let time = 0;
+    let lastFrame = 0;
+    const INTERVAL = 1000 / 24;
 
-    const draw = () => {
-      // Smooth follow
-      currentX += (mouseX - currentX) * 0.08;
-      currentY += (mouseY - currentY) * 0.08;
+    const draw = (ts: number) => {
+      animationFrameId = requestAnimationFrame(draw);
 
-      // Increment time for continuous wave
-      time += 0.015;
+      const dt = ts - lastFrame;
+      if (dt < INTERVAL) return;
+      lastFrame = ts - (dt % INTERVAL);
 
-      ctx.clearRect(0, 0, width, height);
+      time += 0.012;
 
-      // We want a dark background, so dots will be the 'light'
-      ctx.fillStyle = resolvedTheme === 'dark' ? '#52525b' : '#d4d4d8';
+      pixels.fill(0);
 
-      // Scan the entire canvas, but optimize loop
-      // We increased GRID_SPACING to 6, which is good.
-      // We can also skip rendering far outside the viewport if needed, but here we render full screen
-      // to ensure continuous movement.
+      const fX = 0.003;
+      const fY = 0.003;
 
-      // Pre-calculate some constants
-      const freqX = 0.003;
-      const freqY = 0.003;
-      const waveSpeed = 2.0;
+      for (let i = 0; i < points.length; i++) {
+        const p = points[i];
+        
+        // Stretched Vertical gradient - wide ellipse distribution
+        const yFactor = p.y / height;
+        const xPercent = (p.x - width / 2) / (width / 2); // -1 to 1
+        
+        const w1 = 0.2 * Math.sin(p.x * 0.0012 + time * 0.1);
+        const w2 = 0.1 * Math.cos(p.x * 0.003 - time * 0.08);
+        const waveFactor = (w1 + w2) * Math.pow(yFactor, 2);
+        
+        // curveOffset (0.15 * x^2) for the wide horizon
+        const curveOffset = 0.15 * (xPercent * xPercent);
+        // Reduced exponent (3.0) pushes the particles further up the section
+        const densityFactor = Math.max(0, Math.pow(yFactor, 3.0) - curveOffset + waveFactor - 0.05);
 
-      for (let x = 0; x < width; x += GRID_SPACING) {
-        for (let y = 0; y < height; y += GRID_SPACING) {
+        const sinVal = Math.sin(p.x * fX + time);
+        const pixelWave = (sinVal + Math.cos(p.y * fY + time * 0.5)) * 0.5;
+        
+        let intensity = (pixelWave * 0.5 + 0.5) * 0.5 * densityFactor;
 
-          // 1. Calculate Base Wave Intensity (Ambient Movement)
-          // Simple sine wave interference pattern
-          const wave1 = Math.sin(x * freqX + time);
-          const wave2 = Math.cos(y * freqY + time * 0.5);
-          const noise = (wave1 + wave2) * 0.5; // Range -1 to 1 basically
+        const effectiveThreshold = p.threshold;
 
-          // Map to 0-1 range but keep it subtle
-          // We want a base level of activity everywhere
-          let baseIntensity = (noise * 0.5 + 0.5) * 0.15; // Max 0.15 intensity from waves
+        if (intensity > effectiveThreshold) {
+          const alpha = Math.min(255, ((0.3 + (intensity - effectiveThreshold) * 3.0) * 255) | 0);
+          
+          const startX = Math.floor(p.x);
+          const startY = Math.floor(p.y);
+          const endX = Math.min(startX + PIXEL_SIZE, width);
+          const endY = Math.min(startY + PIXEL_SIZE, height);
 
-          // 2. Calculate Mouse Interaction (Spotlight/Distortion)
-          const dx = x - currentX;
-          const dy = y - currentY;
-          const distSquared = dx * dx + dy * dy;
-          const maxDistSquared = LIGHT_RADIUS * LIGHT_RADIUS;
-
-          let mouseIntensity = 0;
-          if (distSquared < maxDistSquared) {
-            const dist = Math.sqrt(distSquared);
-            mouseIntensity = 1 - dist / LIGHT_RADIUS;
-            mouseIntensity = Math.pow(mouseIntensity, 2); // Falloff
-          }
-
-          // Combine intensities
-          // Mouse interaction dominates, wave is subtle background
-          let intensity = baseIntensity + (mouseIntensity * 0.85);
-
-          // Bayer Dither Logic
-          const col = (x / GRID_SPACING) % 4;
-          const row = (y / GRID_SPACING) % 4;
-          const threshold = bayerMatrix[row][col] / 16;
-
-          // If intensity exceeds threshold, draw pixel
-          if (intensity > threshold) {
-            // Calculate alpha based on how much we exceeded threshold
-            // This softens the transition
-            const excess = intensity - threshold;
-            ctx.globalAlpha = Math.min(1.0, 0.1 + excess * 1.5);
-            ctx.fillRect(x, y, DOT_SIZE, DOT_SIZE);
+          for (let px = startX; px < endX; px++) {
+            for (let py = startY; py < endY; py++) {
+              const idx = (py * width + px) * 4;
+              pixels[idx]     = BR;
+              pixels[idx + 1] = BG;
+              pixels[idx + 2] = BB;
+              pixels[idx + 3] = alpha;
+            }
           }
         }
       }
 
-      ctx.globalAlpha = 1.0;
-      animationFrameId = requestAnimationFrame(draw);
+      ctx.putImageData(imageData, 0, 0);
     };
 
-    draw();
+    animationFrameId = requestAnimationFrame(draw);
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', generatePoints);
       cancelAnimationFrame(animationFrameId);
     };
   }, [resolvedTheme]);
 
   return (
-    <section className="relative pt-24 pb-32 overflow-hidden bg-white dark:bg-black">
+    <section className="relative pt-24 pb-32 overflow-hidden bg-white dark:bg-zinc-950">
       {/* Interactive Dither Background */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+      />
+
+      {/* Solid Blue Ellipse Gradient Overlay - Raised and stretched */}
+      <div 
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{
+          background: resolvedTheme === 'dark'
+            ? 'radial-gradient(ellipse 100% 75% at 50% 105%, rgba(37, 99, 235, 0.3) 0%, rgba(37, 99, 235, 0.1) 45%, transparent 75%)'
+            : 'radial-gradient(ellipse 100% 75% at 50% 105%, rgba(37, 99, 235, 0.7) 0%, rgba(37, 99, 235, 0.2) 45%, transparent 75%)',
+          maskImage: 'radial-gradient(ellipse 100% 80% at 50% 115%, black 45%, transparent 85%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 100% 80% at 50% 115%, black 45%, transparent 85%)'
+        }}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -155,16 +156,14 @@ const Hero: React.FC = () => {
           {/* Left Column: Text Content */}
           <div className="text-left">
             <h1 className="text-5xl md:text-7xl font-medium tracking-tight text-zinc-950 dark:text-white mb-6 leading-[1.1]">
-              Centralize your Application With Synapse Suite
+              Intelligent Application <span className="protection-gradient">Protection.</span>
             </h1>
             <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-xl mb-10 leading-relaxed font-light">
-              Synapse Suite is a unified security platform with six integrated modules, designed to protect your application infrastructure at every layer.
+              Aether Sentinel replaces fragmented protection tools with a single, autonomous engine that discovers, prioritizes, and remediates risks across your entire digital estate.
             </p>
 
             <div className="flex justify-start mb-12">
-              <button className="bg-zinc-900 dark:bg-white text-white dark:text-black px-8 py-3.5 rounded-full text-base font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95">
-                Request demo
-              </button>
+              <Button size="lg">Request demo</Button>
             </div>
           </div>
 
@@ -187,44 +186,6 @@ const Hero: React.FC = () => {
               />
               {/* Overlay gradient for better integration */}
 
-            </div>
-          </div>
-        </div>
-
-        {/* Trusted By - Animated Marquee */}
-        <div className="border-t border-zinc-200 dark:border-zinc-900 pt-10">
-          <p className="text-xs font-mono uppercase tracking-wider text-zinc-500 mb-8">Protecting the world's most innovative companies</p>
-
-          {/* Marquee Container with Gradient Fade */}
-          <div className="relative overflow-hidden">
-            {/* Left gradient fade */}
-            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white dark:from-black to-transparent z-10 pointer-events-none"></div>
-            {/* Right gradient fade */}
-            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white dark:from-black to-transparent z-10 pointer-events-none"></div>
-
-            {/* Scrolling logos container */}
-            <div className="flex w-max min-w-full animate-marquee">
-              {/* First set of logos */}
-              <div className="flex items-center gap-16 md:gap-24 shrink-0 px-8 md:px-12">
-                <img src="/logos/aws-dark-logo.svg" alt="AWS" className="h-8 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/azure-plain-wordmark-logo.svg" alt="Azure" className="h-14 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/cloudflare-logo.svg" alt="Cloudflare" className="h-6 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/datadog-logo.svg" alt="Datadog" className="h-8 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/digitalocean-original-wordmark-logo.svg" alt="DigitalOcean" className="h-10 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/mongodb-logo.svg" alt="MongoDB" className="h-7 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/vercel-logo.svg" alt="Vercel" className="h-6 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-              </div>
-
-              {/* Duplicate set for seamless loop */}
-              <div className="flex items-center gap-16 md:gap-24 shrink-0 px-8 md:px-12">
-                <img src="/logos/aws-dark-logo.svg" alt="AWS" className="h-8 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/azure-plain-wordmark-logo.svg" alt="Azure" className="h-14 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/cloudflare-logo.svg" alt="Cloudflare" className="h-6 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/datadog-logo.svg" alt="Datadog" className="h-8 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/digitalocean-original-wordmark-logo.svg" alt="DigitalOcean" className="h-10 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/mongodb-logo.svg" alt="MongoDB" className="h-7 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-                <img src="/logos/vercel-logo.svg" alt="Vercel" className="h-6 w-auto grayscale brightness-0 dark:invert transition-opacity" />
-              </div>
             </div>
           </div>
         </div>

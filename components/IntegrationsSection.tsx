@@ -6,8 +6,8 @@ const IntegrationsSection: React.FC = () => {
     <section className="py-24 bg-zinc-50 dark:bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
-          <h3 className="text-lg text-zinc-950 dark:text-white font-medium mb-2">Fits into your stack on day one; No rip-and-replace</h3>
-          <p className="text-zinc-600 dark:text-zinc-500 text-sm">Synapse Suite plugs into the tools you already run and turns scattered signals into workflows you can execute.</p>
+          <h3 className="text-lg text-zinc-950 dark:text-white font-medium mb-2">Native ecosystem integrations. No architectural overhead.</h3>
+          <p className="text-zinc-600 dark:text-zinc-500 text-sm">Aether Sentinel plugs into your existing infrastructure and turns fragmented signals into unified protection workflows.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

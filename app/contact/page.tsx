@@ -38,17 +38,17 @@ export default function Contact() {
                         <span className="text-zinc-500 font-semibold tracking-wider uppercase text-sm mb-4 block">Get in touch</span>
                         <h1 className="text-5xl md:text-6xl font-medium tracking-tight mb-8">Let's start a conversation.</h1>
                         <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-12 font-light leading-relaxed">
-                            Have a question about Snapsec? Interested in a partnership? We'd love to hear from you.
+                            Have a question about Aether? Interested in a partnership? We'd love to hear from you.
                         </p>
 
                         <div className="space-y-8">
-                            <a href="mailto:hello@snapsec.com" className="flex items-start gap-4 group p-4 rounded-xl -ml-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors">
+                            <a href="mailto:hello@aether.security" className="flex items-start gap-4 group p-4 rounded-xl -ml-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors">
                                 <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white group-hover:scale-110 transition-transform">
                                     <Mail className="w-6 h-6" />
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-lg mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Email us</h3>
-                                    <p className="text-zinc-600 dark:text-zinc-400">hello@snapsec.com</p>
+                                    <p className="text-zinc-600 dark:text-zinc-400">hello@aether.security</p>
                                 </div>
                             </a>
 

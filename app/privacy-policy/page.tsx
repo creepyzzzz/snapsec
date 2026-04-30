@@ -27,7 +27,7 @@ export default function PrivacyPolicy() {
                         <section className="mb-10">
                             <h2 className="text-2xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">1. Introduction</h2>
                             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
-                                At Snapsec ("we", "our", or "us"), we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclosure, and safeguard your information when you visit our website or use our services.
+                                At Aether ("we", "our", or "us"), we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclosure, and safeguard your information when you visit our website or use our services.
                             </p>
                             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
                                 Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
@@ -71,10 +71,10 @@ export default function PrivacyPolicy() {
                         <section className="mb-10">
                             <h2 className="text-2xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">5. Contact Us</h2>
                             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                                If you have questions or comments about this policy, you may email us at privacy@snapsec.com or by post to:
+                                If you have questions or comments about this policy, you may email us at privacy@aether.security or by post to:
                             </p>
                             <address className="mt-4 not-italic text-zinc-600 dark:text-zinc-400">
-                                Snapsec, Inc.<br />
+                                Aether Security, Inc.<br />
                                 123 Security Way<br />
                                 San Francisco, CA 94105<br />
                                 United States

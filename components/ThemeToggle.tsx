@@ -2,7 +2,6 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const SystemIcon = () => (
@@ -24,7 +23,7 @@ const MoonIcon = () => (
 );
 
 const ThemeToggle = () => {
-    const { theme, setTheme, resolvedTheme } = useTheme();
+    const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -33,7 +32,7 @@ const ThemeToggle = () => {
 
     if (!mounted) {
         return (
-            <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-full w-[108px] h-[34px]" />
+            <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-full w-[104px] h-[34px]" />
         );
     }
 
@@ -43,26 +42,26 @@ const ThemeToggle = () => {
         { id: "dark", icon: <MoonIcon /> },
     ];
 
+    const activeIndex = themes.findIndex((t) => t.id === theme);
+    const safeIndex = activeIndex >= 0 ? activeIndex : 0;
+
     return (
         <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-full w-fit relative">
+            <div 
+                className="absolute left-1 w-8 h-6 bg-zinc-100 dark:bg-zinc-800 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:shadow-none transition-transform duration-300 ease-out will-change-transform"
+                style={{ transform: `translate3d(${safeIndex * 100}%, 0, 0)` }}
+            />
             {themes.map((t) => (
                 <button
                     key={t.id}
                     onClick={() => setTheme(t.id)}
                     className={cn(
-                        "relative z-10 flex items-center justify-center w-8 h-6 transition-colors duration-200",
+                        "relative z-10 flex items-center justify-center w-8 h-6 transition-colors duration-300 ease-out",
                         theme === t.id ? "text-zinc-950 dark:text-white" : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"
                     )}
                     aria-label={`Switch to ${t.id} theme`}
                 >
                     {t.icon}
-                    {theme === t.id && (
-                        <motion.div
-                            layoutId="theme-slider"
-                            className="absolute inset-0 bg-zinc-100 dark:bg-zinc-800 rounded-full -z-10 shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:shadow-none"
-                            transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
-                        />
-                    )}
                 </button>
             ))}
         </div>

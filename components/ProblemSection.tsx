@@ -2,8 +2,10 @@ import React from 'react';
 import { Tilt } from './ui/tilt';
 import { Shield, Target, Database, Siren, Scan, Lock, ArrowRight } from 'lucide-react';
 
-import { ApiSecurityVisual } from './visualizations/ApiSecurityVisual';
+import { ApiProtectionVisual } from './visualizations/ApiSecurityVisual';
 import { ScanningVisual } from './visualizations/ScanningVisual';
+import { AssetInventoryVisual } from './visualizations/AssetInventoryVisual';
+import { AttackSurfaceVisual } from './visualizations/AttackSurfaceVisual';
 
 import { ClientSideBar } from './ui/client-side-bar';
 
@@ -19,13 +21,13 @@ const ProblemSection: React.FC = () => {
                         Six modules. <span className="text-zinc-400 dark:text-zinc-500">One platform.</span>
                     </h2>
                     <p className="mt-4 text-zinc-600 dark:text-zinc-400 text-sm md:text-lg max-w-2xl mx-auto">
-                        Everything you need to secure your applications in one unified solution
+                        Everything you need to protect your applications in one unified solution
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-fr">
 
-                    {/* Module 1: Vulnerability Management (Wide Top-Left) */}
+                    {/* Module 1: Vulnerability Intelligence (Wide Top-Left) */}
                     <div className="md:col-span-1 lg:col-span-2">
                         <Tilt rotationFactor={4} isRevese springOptions={{ stiffness: 40, damping: 30, mass: 1 }} className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden group hover:border-zinc-300 dark:hover:border-zinc-700 flex flex-col h-full hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-zinc-900/50 transition-all duration-300">
                             <div className="h-40 relative overflow-hidden flex items-center justify-center border-b border-zinc-200/50 dark:border-zinc-800/50 bg-zinc-100/50 dark:bg-zinc-900/20">
@@ -33,10 +35,10 @@ const ProblemSection: React.FC = () => {
                             <div className="p-5 flex flex-col flex-grow bg-zinc-100/50 dark:bg-zinc-900/20">
                                 <div className="flex items-center gap-2 mb-2">
                                     <Shield className="w-4 h-4 text-zinc-950 dark:text-white" />
-                                    <h3 className="text-zinc-950 dark:text-white font-medium text-lg">Vulnerability Management</h3>
+                                    <h3 className="text-zinc-950 dark:text-white font-medium text-lg">Vulnerability Intelligence</h3>
                                 </div>
                                 <p className="text-zinc-600 dark:text-zinc-500 text-sm leading-relaxed flex-grow line-clamp-3">
-                                    Track, prioritize, and remediate vulnerabilities across your entire application portfolio with intelligent risk scoring based on real-time exploitability context.
+                                    Go beyond generic scanners. Correlate technical findings with real-world exploitability and business impact to focus on what matters most.
                                 </p>
                                 <div className="mt-4 flex items-center text-sm font-medium text-zinc-500 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors cursor-pointer">
                                     Learn more <ArrowRight className="w-3 h-3 ml-1 transition-transform group-hover:translate-x-1" />
@@ -45,7 +47,7 @@ const ProblemSection: React.FC = () => {
                         </Tilt>
                     </div>
 
-                    {/* Module 4: Threat Management (Wide Top-Right) */}
+                    {/* Module 4: Proactive Threat Hunting (Wide Top-Right) */}
                     <div className="md:col-span-1 lg:col-span-2">
                         <Tilt rotationFactor={4} isRevese springOptions={{ stiffness: 40, damping: 30, mass: 1 }} className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden group hover:border-zinc-300 dark:hover:border-zinc-700 flex flex-col h-full hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-zinc-900/50 transition-all duration-300">
                             <div className="h-40 relative overflow-hidden flex items-center justify-center border-b border-zinc-200/50 dark:border-zinc-800/50 bg-zinc-100/50 dark:bg-zinc-900/20">
@@ -59,10 +61,10 @@ const ProblemSection: React.FC = () => {
                             <div className="p-5 flex flex-col flex-grow bg-zinc-100/50 dark:bg-zinc-900/20">
                                 <div className="flex items-center gap-2 mb-2">
                                     <Siren className="w-4 h-4 text-zinc-950 dark:text-white" />
-                                    <h3 className="text-zinc-950 dark:text-white font-medium text-lg">Threat Management</h3>
+                                    <h3 className="text-zinc-950 dark:text-white font-medium text-lg">Proactive Threat Hunting</h3>
                                 </div>
                                 <p className="text-zinc-600 dark:text-zinc-500 text-sm leading-relaxed flex-grow line-clamp-3">
-                                    Detect, analyze, and respond to security threats with advanced threat intelligence and automated detection workflows.
+                                    Identify sophisticated adversaries before they strike with behavioral analysis, anomaly detection, and real-time threat intelligence.
                                 </p>
                                 <div className="mt-4 flex items-center text-sm font-medium text-zinc-500 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors cursor-pointer">
                                     Learn more <ArrowRight className="w-3 h-3 ml-1 transition-transform group-hover:translate-x-1" />
@@ -71,50 +73,43 @@ const ProblemSection: React.FC = () => {
                         </Tilt>
                     </div>
 
-                    {/* Module 2: Attack Surface Management (Small) */}
+                    {/* Module 2: Active Surface Defense (Small) */}
                     <div className="md:col-span-1 lg:col-span-1">
                         <Tilt rotationFactor={4} isRevese springOptions={{ stiffness: 40, damping: 30, mass: 1 }} className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden group hover:border-zinc-300 dark:hover:border-zinc-700 flex flex-col h-full hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-zinc-900/50 transition-all duration-300">
                             <div className="h-32 relative overflow-hidden flex items-center justify-center border-b border-zinc-200/50 dark:border-zinc-800/50 bg-zinc-100/50 dark:bg-zinc-900/20">
-                                {/* Network Nodes Graphic */}
-                                <svg className="w-full h-full opacity-40 p-6" viewBox="0 0 200 150">
-                                    <circle cx="100" cy="75" r="4" fill="#52525b" />
-                                    <circle cx="50" cy="40" r="3" fill="#3f3f46" />
-                                    <circle cx="150" cy="40" r="3" fill="#3f3f46" />
-                                    <line x1="100" y1="75" x2="50" y2="40" stroke="#3f3f46" strokeWidth="1" />
-                                    <line x1="100" y1="75" x2="150" y2="40" stroke="#3f3f46" strokeWidth="1" />
-                                    <circle cx="100" cy="75" r="40" stroke="#3f3f46" strokeWidth="1" fill="none" className="animate-pulse" />
-                                </svg>
+                                <AttackSurfaceVisual />
                             </div>
                             <div className="p-5 flex flex-col flex-grow bg-zinc-100/50 dark:bg-zinc-900/20">
                                 <div className="flex items-center gap-2 mb-2">
                                     <Target className="w-4 h-4 text-zinc-600 dark:text-zinc-200" />
-                                    <h3 className="text-zinc-950 dark:text-white font-medium text-[15px]">Attack Surface</h3>
+                                    <h3 className="text-zinc-950 dark:text-white font-medium text-[15px]">Surface Defense</h3>
                                 </div>
                                 <p className="text-zinc-600 dark:text-zinc-500 text-sm leading-relaxed flex-grow mb-2 line-clamp-3">
-                                    Continuously discover and monitor your external attack surface exposures.
+                                    Map your external footprint and eliminate blind spots in your cloud perimeter.
                                 </p>
                             </div>
                         </Tilt>
                     </div>
 
-                    {/* Module 3: Asset Inventory (Small) */}
+                    {/* Module 3: Autonomous Discovery (Small) */}
                     <div className="md:col-span-1 lg:col-span-1">
                         <Tilt rotationFactor={4} isRevese springOptions={{ stiffness: 40, damping: 30, mass: 1 }} className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden group hover:border-zinc-300 dark:hover:border-zinc-700 flex flex-col h-full hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-zinc-900/50 transition-all duration-300">
                             <div className="h-32 relative overflow-hidden flex items-center justify-center border-b border-zinc-200/50 dark:border-zinc-800/50 bg-zinc-100/50 dark:bg-zinc-900/20">
+                                <AssetInventoryVisual />
                             </div>
                             <div className="p-5 flex flex-col flex-grow bg-zinc-100/50 dark:bg-zinc-900/20">
                                 <div className="flex items-center gap-2 mb-2">
                                     <Database className="w-4 h-4 text-zinc-600 dark:text-zinc-200" />
-                                    <h3 className="text-zinc-950 dark:text-white font-medium text-[15px]">Asset Inventory</h3>
+                                    <h3 className="text-zinc-950 dark:text-white font-medium text-[15px]">Autonomous Discovery</h3>
                                 </div>
                                 <p className="text-zinc-600 dark:text-zinc-500 text-sm leading-relaxed flex-grow mb-2 line-clamp-3">
-                                    Maintain complete visibility of all digital assets with automated discovery.
+                                    Automatic asset tracking that discovers services as soon as they are deployed.
                                 </p>
                             </div>
                         </Tilt>
                     </div>
 
-                    {/* Module 5: Vulnerability Scanning (Small) */}
+                    {/* Module 5: Predictive Scanning (Small) */}
                     <div className="md:col-span-1 lg:col-span-1">
                         <Tilt rotationFactor={4} isRevese springOptions={{ stiffness: 40, damping: 30, mass: 1 }} className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden group hover:border-zinc-300 dark:hover:border-zinc-700 flex flex-col h-full hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-zinc-900/50 transition-all duration-300">
                             <div className="h-32 relative overflow-hidden flex items-center justify-center border-b border-zinc-200/50 dark:border-zinc-800/50 bg-zinc-100/50 dark:bg-zinc-900/20">
@@ -123,28 +118,28 @@ const ProblemSection: React.FC = () => {
                             <div className="p-5 flex flex-col flex-grow bg-zinc-100/50 dark:bg-zinc-900/20">
                                 <div className="flex items-center gap-2 mb-2">
                                     <Scan className="w-4 h-4 text-zinc-950 dark:text-white" />
-                                    <h3 className="text-zinc-950 dark:text-white font-medium text-[15px]">Scanning</h3>
+                                    <h3 className="text-zinc-950 dark:text-white font-medium text-[15px]">Predictive Scanning</h3>
                                 </div>
                                 <p className="text-zinc-600 dark:text-zinc-500 text-sm leading-relaxed flex-grow mb-2 line-clamp-3">
-                                    Automated scanning for web apps, APIs, and infrastructure.
+                                    High-fidelity, low-noise scanning that validates vulnerabilities with evidence.
                                 </p>
                             </div>
                         </Tilt>
                     </div>
 
-                    {/* Module 6: API Security (Small) */}
+                    {/* Module 6: Deep API Protection (Small) */}
                     <div className="md:col-span-1 lg:col-span-1">
                         <Tilt rotationFactor={4} isRevese springOptions={{ stiffness: 40, damping: 30, mass: 1 }} className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden group hover:border-zinc-300 dark:hover:border-zinc-700 flex flex-col h-full hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-zinc-900/50 transition-all duration-300">
                             <div className="h-32 relative overflow-hidden flex items-center justify-center border-b border-zinc-200/50 dark:border-zinc-800/50 bg-zinc-100/50 dark:bg-zinc-900/20">
-                                <ApiSecurityVisual />
+                                <ApiProtectionVisual />
                             </div>
                             <div className="p-5 flex flex-col flex-grow bg-zinc-100/50 dark:bg-zinc-900/20">
                                 <div className="flex items-center gap-2 mb-2">
                                     <Lock className="w-4 h-4 text-zinc-600 dark:text-zinc-200" />
-                                    <h3 className="text-zinc-950 dark:text-white font-medium text-[15px]">API Security</h3>
+                                    <h3 className="text-zinc-950 dark:text-white font-medium text-[15px]">API Defense</h3>
                                 </div>
                                 <p className="text-zinc-600 dark:text-zinc-500 text-sm leading-relaxed flex-grow mb-2 line-clamp-3">
-                                    Protect your APIs with runtime protection.
+                                    Protect your entire API ecosystem with continuous schema validation and traffic analysis.
                                 </p>
                             </div>
                         </Tilt>

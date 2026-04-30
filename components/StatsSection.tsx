@@ -13,11 +13,11 @@ const StatsSection: React.FC = () => {
             </div>
 
             <div className="relative z-10 max-w-5xl mx-auto px-4">
-                <h3 className="text-xl text-zinc-950 dark:text-white font-medium mb-1">From Open Source to Enterprise:</h3>
-                <h3 className="text-xl text-zinc-600 dark:text-zinc-400 font-normal mb-8">security velocity, autonomous control</h3>
+                <h3 className="text-xl text-zinc-950 dark:text-white font-medium mb-1">Open Source Heritage.</h3>
+                <h3 className="text-xl text-zinc-600 dark:text-zinc-400 font-normal mb-8">Enterprise-grade velocity and autonomous control.</h3>
 
                 <p className="text-zinc-600 dark:text-zinc-500 text-base max-w-2xl mx-auto mb-16 leading-relaxed">
-                    Our open-source heritage delivers attacker-realistic coverage at scale, finding and validating what's actually out there. Sentinel turns that momentum into governed AI security workflows, so results are consistent, repeatable, and auditable.
+                    Our open-source foundation delivers industry-standard coverage at scale, identifying and validating exposures with precision. Aether Sentinel transforms this technical momentum into governed, autonomous protection workflows—ensuring every result is consistent, repeatable, and audit-ready.
                 </p>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">

@@ -48,7 +48,7 @@ export default function About() {
                             variants={fadeInUp}
                             className="text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed font-light"
                         >
-                            Snapsec was founded on the belief that security shouldn't be a bottleneck to innovation. We're building the first autonomous application security platform to help companies move fast without breaking things.
+                            Aether was founded on the belief that security shouldn't be a bottleneck to innovation. We're building the first autonomous application security platform to help companies move fast without breaking things.
                         </motion.p>
                     </motion.div>
                 </section>
@@ -101,7 +101,7 @@ export default function About() {
                             <h2 className="text-3xl md:text-4xl font-medium mb-6">Our Story</h2>
                             <div className="space-y-4 text-zinc-600 dark:text-zinc-400 leading-relaxed">
                                 <p>
-                                    Started in 2024 by a team of security veterans and ethical hackers, Snapsec emerged from a simple observation: modern cloud environments were becoming too complex for traditional security tools to handle.
+                                    Started in 2024 by a team of security veterans and ethical hackers, Aether emerged from a simple observation: modern cloud environments were becoming too complex for traditional security tools to handle.
                                 </p>
                                 <p>
                                     We set out to build a platform that could think like an attacker but work like a defender. Our autonomous security engine identifies vulnerabilities before they can be exploited, giving teams peace of mind.

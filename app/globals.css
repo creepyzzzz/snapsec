@@ -59,54 +59,53 @@ body {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 }
 
-/* Logo Marquee Animation */
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
+/* Respect user motion preferences for marquee */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation-play-state: paused !important;
   }
 }
 
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
+/* Animated Gradient Utility */
+@keyframes gradient-x {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-@keyframes marquee {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
+.animate-gradient-x {
+  background-size: 200% auto;
+  animation: gradient-x 12s linear infinite;
 }
 
-@keyframes marquee-reverse {
-  0% {
-    transform: translate3d(-50%, 0, 0);
-  }
 
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
+.protection-gradient {
+  background: linear-gradient(
+    135deg,
+    #2563eb 0%,
+    #3b82f6 65%,
+    #ffffff 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: 600;
 }
 
-.animate-marquee-reverse {
-  animation: marquee-reverse 60s linear infinite;
-  will-change: transform;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-perspective: 1000px;
-  perspective: 1000px;
+.dark .protection-gradient {
+  background: linear-gradient(
+    135deg,
+    #3b82f6 0%,
+    #60a5fa 65%,
+    #ffffff 100%
+  );
 }
 
-.pause-on-hover:hover {
-  animation-play-state: paused;
-}
+
+
+
+
+
+

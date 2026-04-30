@@ -9,8 +9,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-    title: "Synapse Suite - Centralize your Application with Snapsec",
-    description: "Synapse Suite is a unified security platform that centralizes your application security with six integrated modules, protecting the world's most innovative companies.",
+    title: "Aether Sentinel - Premium Application Security Suite",
+    description: "Aether Sentinel is a unified security platform that centralizes your application security with six integrated modules, protecting the world's most innovative companies.",
     icons: {
         icon: [
             { url: '/favicon.ico' },

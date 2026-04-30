@@ -12,11 +12,11 @@ const Footer: React.FC = () => {
                     {/* Brand Column */}
                     <div>
                         <div className="flex items-center gap-2 mb-6">
-                            <img src="/apple-touch-icon.png" alt="Snapsec Logo" className="w-8 h-8 object-contain invert dark:invert-0" />
-                            <span className="font-semibold text-zinc-950 dark:text-white tracking-tight text-xl uppercase">Snapsec</span>
+                            <img src="/apple-touch-icon.png" alt="Aether Logo" className="w-8 h-8 object-contain invert dark:invert-0" />
+                            <span className="font-semibold text-zinc-950 dark:text-white tracking-tight text-xl uppercase">Aether</span>
                         </div>
                         <p className="text-zinc-600 dark:text-zinc-500 mb-6 max-w-[200px] leading-relaxed text-sm">
-                            Unified application security platform for modern enterprises.
+                            The Intelligence Layer for Modern Application Protection.
                         </p>
                         <div className="flex items-center gap-4">
                             <Twitter className="w-4 h-4 text-zinc-400 dark:text-zinc-500 hover:text-black dark:hover:text-white cursor-pointer transition-colors" />
@@ -29,12 +29,12 @@ const Footer: React.FC = () => {
                     <div>
                         <h4 className="text-zinc-500 dark:text-zinc-500 font-semibold mb-6 uppercase tracking-wider text-[11px]">Product</h4>
                         <ul className="space-y-4 text-zinc-800 dark:text-zinc-300">
-                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Vulnerability Management</li>
-                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Attack Surface Management</li>
-                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Asset Inventory Management</li>
-                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Threat Management</li>
-                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Vulnerability Scanning</li>
-                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">API Security</li>
+                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Vulnerability Intelligence</li>
+                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Active Surface Defense</li>
+                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Autonomous Discovery</li>
+                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Proactive Threat Hunting</li>
+                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Predictive Scanning</li>
+                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Deep API Protection</li>
                         </ul>
                     </div>
 
@@ -42,8 +42,8 @@ const Footer: React.FC = () => {
                         <h4 className="text-zinc-500 dark:text-zinc-500 font-semibold mb-6 uppercase tracking-wider text-[11px]">Resources</h4>
                         <ul className="space-y-4 text-zinc-800 dark:text-zinc-300">
                             <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Documentation</li>
-                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Features</li>
-                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Blog</li>
+                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Pricing</li>
+                            <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">Technology</li>
                             <li className="hover:text-black dark:hover:text-white cursor-pointer transition-colors">YouTube</li>
                         </ul>
                     </div>
@@ -62,7 +62,7 @@ const Footer: React.FC = () => {
                 {/* Bottom Bar */}
                 <div className="border-t border-zinc-200 dark:border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div className="text-zinc-500 dark:text-zinc-600 text-[11px]">
-                        ©2026 Snapsec, Inc.
+                        ©2026 Aether Protection, Inc.
                     </div>
                     <ThemeToggle />
                 </div>

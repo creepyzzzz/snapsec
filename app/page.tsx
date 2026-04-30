@@ -12,6 +12,7 @@ import StatsSection from '@/components/StatsSection';
 import IntegrationsSection from '@/components/IntegrationsSection';
 import Footer from '@/components/Footer';
 import Testimonials from '@/components/Testimonials';
+import Logos from '@/components/Logos';
 import InteractiveDitherObject from '@/components/ui/interactive-dither-object';
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
 
             <main>
                 <Hero />
+                <Logos />
                 <ProblemSection />
                 <LifecycleSection />
                 <FeatureList />
@@ -30,7 +32,7 @@ export default function Home() {
                 {/* Full Cloud Inventory Strip */}
                 <section className="border-t border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/50 py-12">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                        <h3 className="text-[22px] md:text-[28px] font-medium tracking-tight">See Synapse Suite map your full cloud inventory.</h3>
+                        <h3 className="text-[22px] md:text-[28px] font-medium tracking-tight">See Aether Sentinel map your full cloud inventory.</h3>
                         <div className="h-[1px] bg-zinc-200 dark:bg-zinc-800 flex-grow mx-8 hidden md:block"></div>
                         <div className="flex flex-col sm:flex-row items-center gap-4">
                             <span className="text-zinc-500 text-base">Schedule a demo, today.</span>
@@ -54,7 +56,7 @@ export default function Home() {
                             <InteractiveDitherObject className="z-0 opacity-60" gridSize={6} color="#52525b" />
 
                             <div className="max-w-2xl relative z-10">
-                                <h2 className="text-[44px] md:text-[54px] font-medium tracking-tight text-zinc-950 dark:text-white mb-2">See Synapse Suite run complex security tasks.</h2>
+                                <h2 className="text-[44px] md:text-[54px] font-medium tracking-tight text-zinc-950 dark:text-white mb-2">See Aether Sentinel run complex security tasks.</h2>
                                 <h2 className="text-[44px] md:text-[54px] font-medium tracking-tight text-zinc-400 dark:text-zinc-500">Secure your stack.</h2>
                             </div>
                             <button className="bg-zinc-900 dark:bg-white text-white dark:text-black px-8 py-3 rounded-full text-lg font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors whitespace-nowrap relative z-10">

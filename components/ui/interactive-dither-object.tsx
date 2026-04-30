@@ -27,27 +27,30 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
         let height = 0;
         let time = 0;
 
+        const DOT_SIZE = 6;
+        const PIXEL_DENSITY = 800; // One pixel per 800 square pixels
+
+        // Points state
+        let points: { x: number, y: number, isBlue: boolean, threshold: number }[] = [];
+
         const resizeCanvas = () => {
             const parent = canvas.parentElement;
             if (parent) {
-                // Ensure correct drawing surface size
                 width = canvas.width = parent.clientWidth;
                 height = canvas.height = parent.clientHeight;
+                
+                const numPoints = Math.floor((width * height) / PIXEL_DENSITY);
+                points = Array.from({ length: numPoints }).map(() => ({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    isBlue: Math.random() < 0.03,
+                    threshold: 1.1 + Math.random() * 0.4 // Random threshold per point
+                }));
             }
         };
 
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
-
-        // 4x4 Bayer Matrix
-        const bayerMatrix = [
-            [0, 8, 2, 10],
-            [12, 4, 14, 6],
-            [3, 11, 1, 9],
-            [15, 7, 13, 5]
-        ];
-
-        const DOT_SIZE = Math.max(1, Math.floor(gridSize / 2));
 
         // Reduced count for guaranteed smoothness
         const numBalls = 4;
@@ -75,27 +78,21 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
 
             // Physics Update for Balls
             balls.forEach(ball => {
-                // Gentle wandering
                 ball.vx += (Math.random() - 0.5) * 0.1;
                 ball.vy += (Math.random() - 0.5) * 0.1;
-
-                // Damping
                 ball.vx *= 0.98;
                 ball.vy *= 0.98;
 
-                // Mouse interaction - Attraction
                 const dx = mouseX - ball.x;
                 const dy = mouseY - ball.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
 
-                // Smooth attraction
                 if (dist < 400 && dist > 10) {
-                    const force = (400 - dist) / 400; // 0 to 1
+                    const force = (400 - dist) / 400;
                     ball.vx += dx * force * 0.0008;
                     ball.vy += dy * force * 0.0008;
                 }
 
-                // Keep in bounds
                 const margin = 100;
                 if (ball.x < -margin) ball.vx += 0.1;
                 if (ball.x > width + margin) ball.vx -= 0.1;
@@ -107,92 +104,75 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
             });
 
             ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = color;
 
-            const gridSizeInt = Math.floor(gridSize);
-
-            // Optimization: Bounding Box Limiting
-            // Instead of calculating all balls for all pixels, only check nearby ones.
-            // Actually, for 4 balls, simple distance check is fast enough IF we skip division.
-
-            // Pre-calculate squared radii and constants to avoid re-doing math in inner loop
             const ballData = balls.map(b => ({
                 x: b.x,
                 y: b.y,
                 rSq: b.radius * b.radius,
-                limitSq: (b.radius * 4.5) ** 2 // cutoff distance squared
+                limitSq: (b.radius * 4.5) ** 2
             }));
 
             const mouseRSq = 120 * 120;
             const mouseLimitSq = (120 * 4.5) ** 2;
 
-            for (let x = 0; x < width; x += gridSizeInt) {
-                for (let y = 0; y < height; y += gridSizeInt) {
+            for (let i = 0; i < points.length; i++) {
+                const p = points[i];
+                let field = 0;
 
-                    let field = 0;
+                // Mouse Field
+                const mdx = p.x - mouseX;
+                const mdy = p.y - mouseY;
+                const mDistSq = mdx * mdx + mdy * mdy;
 
-                    // Mouse Field
-                    const mdx = x - mouseX;
-                    const mdy = y - mouseY;
-                    const mDistSq = mdx * mdx + mdy * mdy;
+                if (mDistSq < mouseLimitSq) {
+                    field += mouseRSq / (mDistSq + 1000);
+                }
 
-                    if (mDistSq < mouseLimitSq) {
-                        field += mouseRSq / (mDistSq + 1000);
-                    }
+                // Ball Fields
+                for (let j = 0; j < numBalls; j++) {
+                    const b = ballData[j];
+                    const dx = p.x - b.x;
+                    const dy = p.y - b.y;
 
-                    // Ball Fields
-                    for (let i = 0; i < numBalls; i++) {
-                        const b = ballData[i];
-                        const dx = x - b.x;
-                        const dy = y - b.y;
+                    if (Math.abs(dx) > 400 || Math.abs(dy) > 400) continue;
 
-                        // Fast manhattan check first? Optional.
-                        if (Math.abs(dx) > 400 || Math.abs(dy) > 400) continue;
-
-                        const distSq = dx * dx + dy * dy;
-                        if (distSq < b.limitSq) {
-                            field += b.rSq / (distSq + 1000);
-                        }
-                    }
-
-                    // Thresholding
-                    // Adjusted for smoother/larger connection
-                    const threshold = 1.1;
-
-                    // Smooth falloff calculation
-                    // If field is close to threshold, we want smooth transition.
-                    // field >> threshold -> solid
-                    // field < threshold -> empty
-
-                    if (field < threshold - 0.2) continue; // Early exit for empty space
-
-                    let intensity = 0;
-                    if (field > threshold) {
-                        intensity = Math.min(1, (field - threshold) * 0.5);
-                    } else {
-                        // Soft edge range
-                        intensity = Math.max(0, (field - threshold + 0.2) * 2.5);
-                    }
-
-                    if (intensity <= 0.01) continue;
-
-                    // DITHRING - NO NOISE for smoothness
-                    const col = (x / gridSizeInt) % 4;
-                    const row = (y / gridSizeInt) % 4;
-
-                    // Normalize threshold: 0 to 1
-                    // If intensity (0-1) > pattern value, draw.
-                    const bayerVal = bayerMatrix[row][col] / 16;
-
-                    if (intensity > bayerVal) {
-                        // Use a fixed alpha for consistency or very slight variation
-                        // Avoiding heavy alpha blending helps "crispness" but user wanted "smoothness".
-                        // "Smooth" likely refers to frame rate and lack of jitter.
-                        // Fixed alpha prevents "flickering" when intensity hovers.
-                        ctx.globalAlpha = 0.2 + intensity * 0.8;
-                        ctx.fillRect(x, y, DOT_SIZE, DOT_SIZE);
+                    const distSq = dx * dx + dy * dy;
+                    if (distSq < b.limitSq) {
+                        field += b.rSq / (distSq + 1000);
                     }
                 }
+
+                const threshold = p.threshold;
+                if (field < threshold - 0.2) continue;
+
+                let intensity = 0;
+                if (field > threshold) {
+                    intensity = Math.min(1, (field - threshold) * 0.5);
+                } else {
+                    intensity = Math.max(0, (field - threshold + 0.2) * 2.5);
+                }
+
+                if (intensity <= 0.01) continue;
+
+                // Color Selection
+                const mdxS = p.x - mouseX;
+                const mdyS = p.y - mouseY;
+                const mDistSqS = mdxS * mdxS + mdyS * mdyS;
+                const spotlightRadius = 400;
+                let spotAlpha = 0;
+                if (mDistSqS < spotlightRadius * spotlightRadius) {
+                    spotAlpha = Math.max(0, 1 - Math.sqrt(mDistSqS) / spotlightRadius);
+                    spotAlpha = spotAlpha * spotAlpha;
+                }
+
+                if (spotAlpha > 0.1) {
+                    ctx.fillStyle = '#60a5fa';
+                } else {
+                    ctx.fillStyle = p.isBlue ? '#3b82f6' : color;
+                }
+
+                ctx.globalAlpha = 0.2 + intensity * 0.8;
+                ctx.fillRect(Math.floor(p.x), Math.floor(p.y), DOT_SIZE, DOT_SIZE);
             }
 
             ctx.globalAlpha = 1.0;
