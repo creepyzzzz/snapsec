@@ -35,7 +35,7 @@ const testimonials = [
 ];
 
 const TestimonialCard = ({ item }: { item: typeof testimonials[0] }) => (
-    <div className="flex-shrink-0 w-[400px] md:w-[450px] p-1.5 md:p-2 rounded-3xl bg-gradient-to-br from-blue-300/30 via-white/20 to-blue-400/30 dark:from-blue-600/10 dark:via-zinc-900/20 dark:to-blue-800/20 backdrop-blur-2xl border border-white/60 dark:border-blue-300/10 shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(255,255,255,0.3)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(255,255,255,0.05)] overflow-hidden group">
+    <div className="flex-shrink-0 w-[290px] xs:w-[320px] md:w-[450px] p-1.5 md:p-2 rounded-3xl bg-gradient-to-br from-blue-300/30 via-white/20 to-blue-400/30 dark:from-blue-600/10 dark:via-zinc-900/20 dark:to-blue-800/20 backdrop-blur-2xl border border-white/60 dark:border-blue-300/10 shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(255,255,255,0.3)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(255,255,255,0.05)] overflow-hidden group">
         <div className="relative z-10 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-md rounded-2xl p-8 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)] h-full flex flex-col justify-between gap-8 hover:shadow-2xl hover:shadow-blue-500/10 dark:hover:shadow-blue-500/10 transition-shadow duration-500">
             <div className="relative">
                 <svg
@@ -68,20 +68,20 @@ const TestimonialCard = ({ item }: { item: typeof testimonials[0] }) => (
 
 const Testimonials: React.FC = () => {
     return (
-        <div className="py-32 bg-white dark:bg-black border-t border-zinc-200 dark:border-zinc-900 overflow-hidden relative">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 text-center">
-                <h2 className="text-3xl md:text-4xl font-medium text-zinc-950 dark:text-white mb-4 tracking-tight">
+        <div className="py-20 md:py-32 bg-white dark:bg-black border-t border-zinc-200 dark:border-zinc-900 overflow-hidden relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 md:mb-20 text-center">
+                <h2 className="text-2xl md:text-4xl font-medium text-zinc-950 dark:text-white mb-4 tracking-tight leading-tight">
                     Trusted by leading protection teams
                 </h2>
-                <p className="text-zinc-600 dark:text-zinc-500 text-lg max-w-2xl mx-auto font-light">
+                <p className="text-zinc-600 dark:text-zinc-500 text-base md:text-lg max-w-2xl mx-auto font-light leading-relaxed">
                     Empowering the next generation of defense with autonomous intelligence and proactive risk management.
                 </p>
             </div>
 
             <div className="relative w-full">
                 {/* Clean Gradient Masks */}
-                <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-white via-white dark:from-black dark:via-black to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-white via-white dark:from-black dark:via-black to-transparent z-10 pointer-events-none" />
+                <div className="absolute left-0 top-0 bottom-0 w-20 md:w-40 bg-gradient-to-r from-white via-white dark:from-black dark:via-black to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-20 md:w-40 bg-gradient-to-l from-white via-white dark:from-black dark:via-black to-transparent z-10 pointer-events-none" />
 
                 <InfiniteSlider gap={32} speed={30} speedOnHover={15}>
                     {testimonials.map((item, i) => (

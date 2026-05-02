@@ -7,14 +7,12 @@ interface CTADitherObjectProps {
     className?: string;
     gridSize?: number;
     color?: string;
-    pixelDensity?: number;
 }
 
 const CTADitherObject: React.FC<CTADitherObjectProps> = ({
     className,
     gridSize = 6,
-    color = '#52525b',
-    pixelDensity = 100 // High density by default for this section
+    color = '#52525b'
 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -29,7 +27,7 @@ const CTADitherObject: React.FC<CTADitherObjectProps> = ({
         let height = 0;
         let time = 0;
 
-        const DOT_SIZE = 6;
+        const DOT_SIZE = 3.2; 
 
         // Points state
         let points: { x: number, y: number, isBlue: boolean, threshold: number }[] = [];
@@ -40,26 +38,34 @@ const CTADitherObject: React.FC<CTADitherObjectProps> = ({
                 width = canvas.width = parent.clientWidth;
                 height = canvas.height = parent.clientHeight;
                 
-                const numPoints = Math.floor((width * height) / pixelDensity);
-                points = Array.from({ length: numPoints }).map(() => ({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    isBlue: Math.random() < 0.03,
-                    threshold: 1.1 + Math.random() * 0.4 
-                }));
+                points = [];
+                for (let x = 0; x < width; x += gridSize) {
+                    for (let y = 0; y < height; y += gridSize) {
+                        points.push({
+                            x,
+                            y,
+                            isBlue: Math.random() < 0.04,
+                            threshold: 1.1 + Math.random() * 0.4
+                        });
+                    }
+                }
             }
         };
 
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        const numBalls = 4;
-        const balls = Array.from({ length: numBalls }).map(() => ({
+        // Harmonic Wave Sources (Wave Packets)
+        const numSources = 5;
+        const sources = Array.from({ length: numSources }).map((_, i) => ({
             x: Math.random() * width,
             y: Math.random() * height,
             vx: (Math.random() - 0.5) * 1.5,
             vy: (Math.random() - 0.5) * 1.5,
-            radius: 80 + Math.random() * 60,
+            amplitude: 1.2 + Math.random() * 0.5,
+            sigma: 150 + Math.random() * 100, // Spread of the packet
+            frequency: 2.0 + Math.random() * 1.5,
+            k: 0.015 + Math.random() * 0.01 // Wave number
         }));
 
         let mouseX = width / 2;
@@ -68,106 +74,103 @@ const CTADitherObject: React.FC<CTADitherObjectProps> = ({
         const handleMouseMove = (e: MouseEvent) => {
             const rect = canvas.getBoundingClientRect();
             mouseX = e.clientX - rect.left;
-            mouseY = e.clientY - mouseY;
+            mouseY = e.clientY - rect.top;
         };
 
         window.addEventListener('mousemove', handleMouseMove);
 
         const draw = () => {
-            time += 0.015;
+            time += 0.012;
 
-            balls.forEach(ball => {
-                ball.vx += (Math.random() - 0.5) * 0.1;
-                ball.vy += (Math.random() - 0.5) * 0.1;
-                ball.vx *= 0.98;
-                ball.vy *= 0.98;
+            // Physical movement for wave sources
+            sources.forEach(s => {
+                s.x += s.vx;
+                s.y += s.vy;
 
-                const dx = mouseX - ball.x;
-                const dy = mouseY - ball.y;
+                // Soft boundary repulsion
+                const margin = 200;
+                if (s.x < -margin) s.vx += 0.02;
+                if (s.x > width + margin) s.vx -= 0.02;
+                if (s.y < -margin) s.vy += 0.02;
+                if (s.y > height + margin) s.vy -= 0.02;
+
+                // Mouse influence
+                const dx = mouseX - s.x;
+                const dy = mouseY - s.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < 400 && dist > 10) {
-                    const force = (400 - dist) / 400;
-                    ball.vx += dx * force * 0.0008;
-                    ball.vy += dy * force * 0.0008;
+                if (dist < 500) {
+                    const force = (500 - dist) / 500;
+                    s.vx += dx * force * 0.0002;
+                    s.vy += dy * force * 0.0002;
                 }
-
-                const margin = 100;
-                if (ball.x < -margin) ball.vx += 0.1;
-                if (ball.x > width + margin) ball.vx -= 0.1;
-                if (ball.y < -margin) ball.vy += 0.1;
-                if (ball.y > height + margin) ball.vy -= 0.1;
-
-                ball.x += ball.vx;
-                ball.y += ball.vy;
+                
+                // Friction
+                s.vx *= 0.995;
+                s.vy *= 0.995;
             });
 
             ctx.clearRect(0, 0, width, height);
 
-            const ballData = balls.map(b => ({
-                x: b.x,
-                y: b.y,
-                rSq: b.radius * b.radius,
-                limitSq: (b.radius * 4.5) ** 2
-            }));
-
-            const mouseRSq = 120 * 120;
-            const mouseLimitSq = (120 * 4.5) ** 2;
+            // Pre-calculate mouse field
+            const mouseRSq = 180 * 180;
 
             for (let i = 0; i < points.length; i++) {
                 const p = points[i];
                 let field = 0;
 
+                // Wave Packet Interference formula: I = sum( A * exp(-d^2 / 2s^2) * cos(k*d - w*t) )
+                for (let j = 0; j < numSources; j++) {
+                    const s = sources[j];
+                    const dx = p.x - s.x;
+                    const dy = p.y - s.y;
+                    const d2 = dx * dx + dy * dy;
+                    const d = Math.sqrt(d2);
+                    
+                    // Gaussian envelope
+                    const envelope = Math.exp(-d2 / (2 * s.sigma * s.sigma));
+                    // Harmonic oscillation
+                    const oscillation = Math.cos(s.k * d - time * s.frequency);
+                    
+                    field += s.amplitude * envelope * (0.5 + 0.5 * oscillation);
+                }
+
+                // Mouse interaction (Static field + Pulse)
                 const mdx = p.x - mouseX;
                 const mdy = p.y - mouseY;
-                const mDistSq = mdx * mdx + mdy * mdy;
+                const md2 = mdx * mdx + mdy * mdy;
+                const md = Math.sqrt(md2);
+                const mouseField = (150 * 150) / (md2 + 1000);
+                const mousePulse = Math.exp(-md2 / (2 * 100 * 100)) * (0.3 + 0.2 * Math.sin(time * 3));
+                
+                const totalField = field + mouseField + mousePulse;
 
-                if (mDistSq < mouseLimitSq) {
-                    field += mouseRSq / (mDistSq + 1000);
-                }
-
-                for (let j = 0; j < numBalls; j++) {
-                    const b = ballData[j];
-                    const dx = p.x - b.x;
-                    const dy = p.y - b.y;
-
-                    if (Math.abs(dx) > 400 || Math.abs(dy) > 400) continue;
-
-                    const distSq = dx * dx + dy * dy;
-                    if (distSq < b.limitSq) {
-                        field += b.rSq / (distSq + 1000);
-                    }
-                }
-
-                const threshold = p.threshold;
-                if (field < threshold - 0.2) continue;
+                if (totalField < p.threshold - 0.25) continue;
 
                 let intensity = 0;
-                if (field > threshold) {
-                    intensity = Math.min(1, (field - threshold) * 0.5);
+                if (totalField > p.threshold) {
+                    intensity = Math.min(1.2, (totalField - p.threshold) * 0.7);
                 } else {
-                    intensity = Math.max(0, (field - threshold + 0.2) * 2.5);
+                    intensity = Math.max(0, (totalField - p.threshold + 0.25) * 2.8);
                 }
 
                 if (intensity <= 0.01) continue;
 
-                const mdxS = p.x - mouseX;
-                const mdyS = p.y - mouseY;
-                const mDistSqS = mdxS * mdxS + mdyS * mdyS;
-                const spotlightRadius = 400;
-                let spotAlpha = 0;
-                if (mDistSqS < spotlightRadius * spotlightRadius) {
-                    spotAlpha = Math.max(0, 1 - Math.sqrt(mDistSqS) / spotlightRadius);
-                    spotAlpha = spotAlpha * spotAlpha;
-                }
-
-                if (spotAlpha > 0.1) {
-                    ctx.fillStyle = '#60a5fa';
+                // Unified Blue Palette
+                if (intensity > 0.95) {
+                    ctx.fillStyle = '#60a5fa'; // Light Blue highlight
+                } else if (intensity > 0.6) {
+                    ctx.fillStyle = '#3b82f6'; // Primary Blue
                 } else {
-                    ctx.fillStyle = p.isBlue ? '#3b82f6' : color;
+                    ctx.fillStyle = '#2563eb'; // Brand Blue
                 }
 
-                ctx.globalAlpha = 0.2 + intensity * 0.8;
+                // Digital Dither Texture Mask
+                if (intensity > 0.9) {
+                    const pattern = (Math.floor(p.x / gridSize) + Math.floor(p.y / gridSize)) % 2;
+                    if (pattern === 0) intensity *= 0.7;
+                }
+
+                ctx.globalAlpha = Math.min(1, 0.1 + intensity * 0.8);
                 ctx.fillRect(Math.floor(p.x), Math.floor(p.y), DOT_SIZE, DOT_SIZE);
             }
 
@@ -182,7 +185,7 @@ const CTADitherObject: React.FC<CTADitherObjectProps> = ({
             window.removeEventListener('mousemove', handleMouseMove);
             cancelAnimationFrame(animationFrameId);
         };
-    }, [gridSize, color, pixelDensity]);
+    }, [gridSize, color]);
 
     return (
         <canvas

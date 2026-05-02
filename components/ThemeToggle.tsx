@@ -46,22 +46,43 @@ const ThemeToggle = () => {
     const safeIndex = activeIndex >= 0 ? activeIndex : 0;
 
     return (
-        <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-full w-fit relative">
+        <div className="flex items-center p-[3px] bg-zinc-100/50 dark:bg-zinc-900/50 backdrop-blur-xl border border-zinc-200 dark:border-zinc-800 rounded-full w-fit relative shadow-[inset_0_1px_4px_rgba(0,0,0,0.05)] dark:shadow-[inset_0_1px_4px_rgba(0,0,0,0.2)]">
+            {/* Liquid Glass Slider */}
             <div 
-                className="absolute left-1 w-8 h-6 bg-zinc-100 dark:bg-zinc-800 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:shadow-none transition-transform duration-300 ease-out will-change-transform"
-                style={{ transform: `translate3d(${safeIndex * 100}%, 0, 0)` }}
-            />
+                className="absolute left-[3px] w-8 h-[26px] bg-blue-600 rounded-full transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] will-change-transform shadow-[0_4px_12px_rgba(37,99,235,0.3),0_1px_2px_rgba(37,99,235,0.2)] overflow-hidden"
+                style={{ transform: `translate3d(${safeIndex * (100 + 4)}%, 0, 0)` }}
+            >
+                {/* Specular Highlight (3D Glass Look) */}
+                <div className="absolute top-[1.5px] left-[3px] w-[70%] h-[40%] bg-gradient-to-br from-white/60 to-transparent rounded-full blur-[0.5px]" />
+                
+                {/* Bottom Rim Reflection */}
+                <div className="absolute bottom-[0.5px] left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-white/20 blur-[0.5px]" />
+                
+                {/* Inner Border Glow */}
+                <div className="absolute inset-0 rounded-full border-[0.5px] border-white/30 pointer-events-none" />
+
+                {/* Subtle Sweep Animation (Optional but premium) */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_3s_infinite]" />
+            </div>
+
             {themes.map((t) => (
                 <button
                     key={t.id}
                     onClick={() => setTheme(t.id)}
                     className={cn(
-                        "relative z-10 flex items-center justify-center w-8 h-6 transition-colors duration-300 ease-out",
-                        theme === t.id ? "text-zinc-950 dark:text-white" : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"
+                        "relative z-10 flex items-center justify-center w-8 h-[26px] transition-colors duration-500 rounded-full",
+                        theme === t.id 
+                            ? "text-white" 
+                            : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"
                     )}
                     aria-label={`Switch to ${t.id} theme`}
                 >
-                    {t.icon}
+                    <span className={cn(
+                        "transition-transform duration-300",
+                        theme === t.id ? "scale-110" : "scale-100 hover:scale-105"
+                    )}>
+                        {t.icon}
+                    </span>
                 </button>
             ))}
         </div>

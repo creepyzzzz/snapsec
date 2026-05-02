@@ -2,7 +2,7 @@ import React from 'react';
 
 const GuardrailsSection: React.FC = () => {
     return (
-        <section className="py-24 bg-white dark:bg-black relative">
+        <section className="py-16 md:py-24 bg-white dark:bg-black relative">
             {/* Background Grid Accent */}
             <div className="absolute right-0 top-0 w-1/3 h-full overflow-hidden opacity-10 dark:opacity-20 pointer-events-none">
                 <div className="w-[800px] h-[800px] border border-blue-500/30 rounded-full absolute -right-64 top-1/2 -translate-y-1/2 transform rotate-12 text-blue-500"
@@ -11,10 +11,10 @@ const GuardrailsSection: React.FC = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="mb-16">
-                    <h2 className="text-3xl font-medium text-zinc-950 dark:text-white mb-6">Engineered With Guardrails From Day One</h2>
-                    <p className="text-zinc-600 dark:text-zinc-500 text-base max-w-3xl leading-relaxed">
-                        Aether Sentinel runs against the same sensitive assets you're protecting—source code, configs, and protection findings—so it's engineered with privacy and defense-in-depth as a top priority. Users get granular guardrails over what Aether Sentinel can access and execute, plus audit-grade visibility into every action. This is the "hard part" of production protection AI that DIY stacks rarely get right.
+                <div className="mb-10 md:mb-16">
+                    <h2 className="text-2xl md:text-3xl font-medium text-zinc-950 dark:text-white mb-4 md:mb-6 leading-tight">Engineered With Guardrails From Day One</h2>
+                    <p className="text-zinc-600 dark:text-zinc-500 text-sm md:text-base max-w-3xl leading-relaxed">
+                        Aether Sentinel runs against the same sensitive assets you're protecting—source code, configs, and protection findings—so it's engineered with privacy and defense-in-depth as a top priority.
                     </p>
                 </div>
 

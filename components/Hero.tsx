@@ -132,7 +132,7 @@ const Hero: React.FC = () => {
   }, [resolvedTheme]);
 
   return (
-    <section className="relative pt-40 pb-32 -mt-16 overflow-hidden bg-white dark:bg-zinc-950">
+    <section className="relative pt-24 md:pt-40 pb-20 md:pb-32 -mt-16 overflow-hidden bg-white dark:bg-zinc-950">
       {/* Interactive Dither Background */}
       <canvas
         ref={canvasRef}
@@ -152,24 +152,24 @@ const Hero: React.FC = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
           {/* Left Column: Text Content */}
-          <div className="text-left">
-            <h1 className="text-5xl md:text-7xl font-medium tracking-tight text-zinc-950 dark:text-white mb-6 leading-[1.1]">
+          <div className="text-left pt-12 md:pt-0">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-medium tracking-tight text-zinc-950 dark:text-white mb-6 leading-[1.15] md:leading-[1.1]">
               Intelligent Application <span className="protection-gradient">Protection.</span>
             </h1>
-            <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-xl mb-10 leading-relaxed font-light">
+            <p className="text-base md:text-lg lg:text-xl text-zinc-600 dark:text-zinc-400 max-w-xl mb-10 leading-relaxed font-light">
               Aether Sentinel replaces fragmented protection tools with a single, autonomous engine that discovers, prioritizes, and remediates risks across your entire digital estate.
             </p>
 
-            <div className="flex justify-start mb-12">
-              <Button size="lg">Request demo</Button>
+            <div className="flex justify-start mb-8 md:mb-12">
+              <Button size="lg" className="w-full sm:w-auto">Request demo</Button>
             </div>
           </div>
 
           {/* Right Column: Dither Shader Animation */}
-          <div className="hidden lg:flex h-full min-h-[500px] items-center justify-center relative">
-            <div className="relative w-full h-[500px] rounded-2xl overflow-hidden flex items-center justify-center">
+          <div className="flex h-full min-h-[300px] md:min-h-[500px] items-center justify-center relative">
+            <div className="relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden flex items-center justify-center">
               <DitherShader
                 src="/images/hero-image-dither.webp"
                 gridSize={2}
@@ -179,13 +179,12 @@ const Hero: React.FC = () => {
                 secondaryColor={resolvedTheme === 'dark' ? '#000000' : '#ffffff'}
                 backgroundColor="transparent"
                 threshold={0.55}
-                className="w-[85%] h-[85%] translate-x-6 -translate-y-6"
+                className="w-[90%] h-[90%] md:w-[85%] md:h-[85%] translate-x-3 md:translate-x-6 -translate-y-3 md:-translate-y-6"
                 animated={true}
                 animationSpeed={0.005}
                 objectFit="contain"
               />
               {/* Overlay gradient for better integration */}
-
             </div>
           </div>
         </div>

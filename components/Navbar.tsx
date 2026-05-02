@@ -4,8 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Shield, Globe, Database, AlertTriangle, Scan, Lock, FileCode, Cloud, Server, Layers, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Button from './ui/Button';
-
-
+import { motion, AnimatePresence } from 'framer-motion';
 
 const products = [
   {
@@ -66,6 +65,7 @@ const useCases = [
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,6 +75,15 @@ const Navbar: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Prevent scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMobileMenuOpen]);
 
   return (
     <nav
@@ -86,9 +95,9 @@ const Navbar: React.FC = () => {
       `}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
+          <Link href="/" className="flex-shrink-0 flex items-center gap-2 cursor-pointer group z-[60]">
             <div 
               className="w-6 h-6 bg-blue-600 dark:bg-blue-400 relative z-10 transition-all duration-500"
               style={{
@@ -102,13 +111,13 @@ const Navbar: React.FC = () => {
                 WebkitMaskPosition: 'center',
               }}
             />
-            <span className="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-blue-600 to-white dark:from-blue-500 dark:to-white transition-all duration-500 uppercase">
+            <span className="font-bold text-lg md:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-blue-600 to-white dark:from-blue-500 dark:to-white transition-all duration-500 uppercase">
               Aether
             </span>
           </Link>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-1">
             <div
               className="relative"
               onMouseEnter={() => setActiveMenu('products')}
@@ -209,7 +218,7 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             <button className="px-2 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 active:scale-[0.98] active:translate-y-[2px]">
               Sign in
             </button>
@@ -217,15 +226,98 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button className="text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors">
-              <Menu className="w-6 h-6" />
+          <div className="lg:hidden flex items-center gap-3 relative z-[60]">
+            <button className="px-4 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 active:scale-[0.98] md:block hidden">
+              Sign in
+            </button>
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 active:scale-90"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </div>
 
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="fixed inset-0 z-50 lg:hidden"
+          >
+            {/* Backdrop */}
+            <div 
+              className="absolute inset-0 bg-white/95 dark:bg-zinc-950/98 backdrop-blur-md"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            
+            <div className="relative h-full flex flex-col pt-24 px-6 pb-10 overflow-y-auto">
+              <div className="space-y-8">
+                {/* Products Section */}
+                <div>
+                  <h4 className="text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-500 font-semibold mb-4">Products</h4>
+                  <div className="grid grid-cols-1 gap-4">
+                    {products.slice(0, 4).map((item) => (
+                      <Link
+                        key={item.title}
+                        href="#"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-4 group"
+                      >
+                        <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
+                          <item.icon className="w-4 h-4" />
+                        </div>
+                        <span className="text-sm font-medium text-zinc-900 dark:text-white">{item.title}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
 
+                {/* Use Cases Section */}
+                <div>
+                  <h4 className="text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-500 font-semibold mb-4">Use Cases</h4>
+                  <div className="grid grid-cols-1 gap-4">
+                    {useCases.slice(0, 3).map((item) => (
+                      <Link
+                        key={item.title}
+                        href="#"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-4"
+                      >
+                        <div className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
+                          <item.icon className="w-4 h-4" />
+                        </div>
+                        <span className="text-sm font-medium text-zinc-900 dark:text-white">{item.title}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Company Section */}
+                <div>
+                  <h4 className="text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-500 font-semibold mb-4">Resources</h4>
+                  <div className="flex flex-col gap-4">
+                    <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-zinc-900 dark:text-white">Documentation</Link>
+                    <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-zinc-900 dark:text-white">Pricing</Link>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-auto pt-10 border-t border-zinc-200 dark:border-zinc-800 flex flex-col gap-4">
+                <Button size="lg" className="w-full">Request demo</Button>
+                <button className="w-full py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  Sign in to your account
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

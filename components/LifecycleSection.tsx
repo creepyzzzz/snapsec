@@ -93,32 +93,26 @@ const LifecycleSection: React.FC = () => {
     const content = tabContent[activeTab];
 
     return (
-        <section className="py-24 bg-white dark:bg-black">
+        <section className="py-16 md:py-24 bg-white dark:bg-black">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-12">
-                    <h3 className="text-xl font-medium text-zinc-950 dark:text-white mb-2">Protection lifecycle, end to end</h3>
-                    <p className="text-zinc-600 dark:text-zinc-500 text-base">Aether connects inventory, modeling, testing, triage, and remediation into one continuous workflow—so teams ship faster with confidence.</p>
+                <div className="mb-10 md:mb-12">
+                    <h3 className="text-xl md:text-2xl font-medium text-zinc-950 dark:text-white mb-2">Protection lifecycle, end to end</h3>
+                    <p className="text-zinc-600 dark:text-zinc-500 text-sm md:text-base max-w-2xl">Aether connects inventory, modeling, testing, triage, and remediation into one continuous workflow.</p>
                 </div>
 
-                {/* Tabs */}
-                <div className="flex flex-wrap gap-3 mb-12 border-b border-zinc-200 dark:border-zinc-900 pb-4">
+                {/* Tabs - Horizontally scrollable on mobile */}
+                <div className="flex overflow-x-auto no-scrollbar gap-3 mb-10 border-b border-zinc-200 dark:border-zinc-900 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
                     {tabs.map((tab, index) => {
-                        if (activeTab === index) {
-                            return (
-                                <Button
-                                    key={index}
-                                    size="sm"
-                                    className="!px-5 !py-2.5 !text-sm cursor-default"
-                                >
-                                    {tab}
-                                </Button>
-                            );
-                        }
+                        const isActive = activeTab === index;
                         return (
                             <button
                                 key={index}
                                 onClick={() => setActiveTab(index)}
-                                className="px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border bg-transparent text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md"
+                                className={`whitespace-nowrap px-5 py-2.5 rounded-full text-xs md:text-sm font-medium transition-all duration-300 border ${
+                                    isActive 
+                                    ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-500/20" 
+                                    : "bg-transparent text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 hover:text-blue-600 dark:hover:text-blue-400"
+                                }`}
                             >
                                 {tab}
                             </button>
@@ -127,38 +121,40 @@ const LifecycleSection: React.FC = () => {
                 </div>
 
                 {/* Content Area */}
-                <div className="relative rounded-3xl p-1.5 md:p-2 bg-gradient-to-br from-blue-300/30 via-white/20 to-blue-400/30 dark:from-blue-600/10 dark:via-zinc-900/20 dark:to-blue-800/20 backdrop-blur-2xl border border-white/60 dark:border-blue-300/10 shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(255,255,255,0.3)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(255,255,255,0.05)] overflow-hidden">
+                <div className="relative rounded-3xl p-1 md:p-2 bg-gradient-to-br from-blue-300/30 via-white/20 to-blue-400/30 dark:from-blue-600/10 dark:via-zinc-900/20 dark:to-blue-800/20 backdrop-blur-2xl border border-white/60 dark:border-blue-300/10 shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(255,255,255,0.3)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(255,255,255,0.05)] overflow-hidden">
                     <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }}></div>
-                    <div className="relative z-10 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-md rounded-2xl overflow-hidden p-6 md:p-12 min-h-[500px] flex flex-col md:flex-row gap-12 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]">
-                        <div className="md:w-1/3 flex flex-col justify-center">
-                            <h3 className="text-3xl font-medium text-zinc-950 dark:text-white mb-6 tracking-tight">{content.title}</h3>
-                            <p className="text-zinc-600 dark:text-zinc-400 text-base leading-relaxed mb-8">
+                    <div className="relative z-10 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-md rounded-2xl overflow-hidden p-6 md:p-12 min-h-[400px] md:min-h-[500px] flex flex-col md:flex-row gap-10 md:gap-12 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]">
+                        <div className="md:w-2/5 lg:w-1/3 flex flex-col justify-center">
+                            <h3 className="text-2xl md:text-3xl font-medium text-zinc-950 dark:text-white mb-4 md:mb-6 tracking-tight">{content.title}</h3>
+                            <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base leading-relaxed mb-6 md:mb-8">
                                 {content.description}
                             </p>
 
                             <div className="space-y-6">
                                 <div>
-                                    <h4 className="text-blue-600 dark:text-blue-400 text-base font-medium mb-2 uppercase tracking-wider text-[11px]">How Aether Helps</h4>
-                                    <ul className="space-y-2">
+                                    <h4 className="text-blue-600 dark:text-blue-400 text-[10px] md:text-[11px] font-semibold mb-3 uppercase tracking-wider">How Aether Helps</h4>
+                                    <ul className="space-y-2.5">
                                         {content.benefits.map((benefit, i) => (
-                                            <li key={i} className="flex items-start gap-2 text-[13px] text-zinc-600 dark:text-zinc-500">
-                                                <span className="text-blue-500">•</span> {benefit}
+                                            <li key={i} className="flex items-start gap-2.5 text-[12px] md:text-[13px] text-zinc-600 dark:text-zinc-500">
+                                                <span className="text-blue-500 mt-0.5">•</span> {benefit}
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
 
                                 <div>
-                                    <h4 className="text-blue-600 dark:text-blue-400 text-base font-medium mb-2 uppercase tracking-wider text-[11px]">Outcome Signal</h4>
-                                    <p className="text-[13px] text-zinc-600 dark:text-zinc-500 leading-relaxed">
+                                    <h4 className="text-blue-600 dark:text-blue-400 text-[10px] md:text-[11px] font-semibold mb-2 uppercase tracking-wider">Outcome Signal</h4>
+                                    <p className="text-[12px] md:text-[13px] text-zinc-600 dark:text-zinc-500 leading-relaxed">
                                         {content.outcome}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="md:w-2/3 h-[400px] md:h-auto flex items-center justify-center">
-                            {content.visual}
+                        <div className="md:w-3/5 lg:w-2/3 h-[300px] md:h-auto flex items-center justify-center bg-zinc-50/50 dark:bg-zinc-900/30 rounded-xl md:rounded-none">
+                            <div className="w-full h-full scale-[0.85] sm:scale-100 transition-transform duration-500">
+                                {content.visual}
+                            </div>
                         </div>
                     </div>
                 </div>

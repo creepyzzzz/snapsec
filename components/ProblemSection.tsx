@@ -5,28 +5,28 @@ import { Shield, Target, Database, Siren, Scan, Lock, ArrowRight } from 'lucide-
 
 const ProblemSection: React.FC = () => {
     return (
-        <section className="py-24 bg-zinc-50 dark:bg-zinc-950 relative overflow-hidden">
+        <section className="py-16 md:py-24 bg-zinc-50 dark:bg-zinc-950 relative overflow-hidden">
             {/* Background Grid */}
             <div className="absolute inset-0 wireframe-grid pointer-events-none opacity-20 dark:opacity-20"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-20">
-                    <h2 className="text-[40px] md:text-[52px] font-medium text-zinc-950 dark:text-white mb-4 tracking-tight">
-                        Six modules. <span className="bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-blue-500 dark:to-cyan-400 bg-clip-text text-transparent">One platform.</span>
+                <div className="text-center mb-12 md:mb-20">
+                    <h2 className="text-[32px] md:text-[52px] font-medium text-zinc-950 dark:text-white mb-4 tracking-tight leading-tight">
+                        Six modules. <span className="bg-gradient-to-r from-blue-600 to-white dark:from-blue-400 dark:to-white bg-clip-text text-transparent">One platform.</span>
                     </h2>
-                    <p className="mt-4 text-zinc-600 dark:text-zinc-400 text-sm md:text-lg max-w-2xl mx-auto">
+                    <p className="mt-4 text-zinc-600 dark:text-zinc-500 text-sm md:text-lg max-w-2xl mx-auto">
                         Everything you need to protect your applications in one unified solution
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[minmax(180px,1fr)] lg:auto-rows-[240px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-auto md:auto-rows-[minmax(180px,1fr)] lg:auto-rows-[240px]">
 
                     {/* Module 1: Vulnerability Intelligence (Large Square) */}
                     <div className="md:col-span-2 lg:col-span-2 lg:row-span-2 group">
                         <div className="relative h-full rounded-3xl p-1.5 md:p-2 bg-gradient-to-br from-blue-300/30 via-white/20 to-blue-400/30 dark:from-blue-600/10 dark:via-zinc-900/20 dark:to-blue-800/20 backdrop-blur-2xl border border-white/60 dark:border-blue-300/10 shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(255,255,255,0.3)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(255,255,255,0.05)] overflow-hidden">
                             <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }}></div>
                             <div className="relative z-10 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-md rounded-2xl overflow-hidden flex flex-col h-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]">
-                                <div className="relative overflow-hidden flex items-center justify-center border-transparent dark:border-transparent bg-zinc-100/50 dark:bg-zinc-900/20 flex-1 min-h-[160px] lg:min-h-[200px]">
+                                <div className="relative overflow-hidden flex items-center justify-center border-transparent dark:border-transparent bg-zinc-100/50 dark:bg-zinc-900/20 flex-1 min-h-[140px] md:min-h-[160px] lg:min-h-[200px]">
                                 </div>
                                 <div className="p-5 flex flex-col shrink-0 bg-gradient-to-b from-zinc-100/50 to-blue-300 dark:from-zinc-900/20 dark:to-blue-900/20">
                                     <div className="flex items-center gap-2 mb-2">
@@ -49,7 +49,7 @@ const ProblemSection: React.FC = () => {
                         <div className="relative h-full rounded-3xl p-1.5 md:p-2 bg-gradient-to-br from-blue-300/30 via-white/20 to-blue-400/30 dark:from-blue-600/10 dark:via-zinc-900/20 dark:to-blue-800/20 backdrop-blur-2xl border border-white/60 dark:border-blue-300/10 shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(255,255,255,0.3)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(255,255,255,0.05)] overflow-hidden">
                             <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }}></div>
                             <div className="relative z-10 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-md rounded-2xl overflow-hidden flex flex-col h-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]">
-                                <div className="relative overflow-hidden flex items-center justify-center border-transparent dark:border-transparent bg-zinc-100/50 dark:bg-zinc-900/20 flex-1 min-h-[120px]">
+                                <div className="relative overflow-hidden flex items-center justify-center border-transparent dark:border-transparent bg-zinc-100/50 dark:bg-zinc-900/20 flex-1 min-h-[100px] md:min-h-[120px]">
                                 </div>
                                 <div className="p-5 flex flex-col shrink-0 bg-gradient-to-b from-zinc-100/50 to-blue-300 dark:from-zinc-900/20 dark:to-blue-900/20">
                                     <div className="flex items-center gap-2 mb-2">
@@ -112,7 +112,7 @@ const ProblemSection: React.FC = () => {
                         <div className="relative h-full rounded-3xl p-1.5 md:p-2 bg-gradient-to-br from-blue-300/30 via-white/20 to-blue-400/30 dark:from-blue-600/10 dark:via-zinc-900/20 dark:to-blue-800/20 backdrop-blur-2xl border border-white/60 dark:border-blue-300/10 shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(255,255,255,0.3)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(255,255,255,0.05)] overflow-hidden">
                             <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }}></div>
                             <div className="relative z-10 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-md rounded-2xl overflow-hidden flex flex-col h-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]">
-                                <div className="relative overflow-hidden flex items-center justify-center border-transparent dark:border-transparent bg-zinc-100/50 dark:bg-zinc-900/20 flex-1 min-h-[120px]">
+                                <div className="relative overflow-hidden flex items-center justify-center border-transparent dark:border-transparent bg-zinc-100/50 dark:bg-zinc-900/20 flex-1 min-h-[100px] md:min-h-[120px]">
                                 </div>
                                 <div className="p-5 flex flex-col shrink-0 bg-gradient-to-b from-zinc-100/50 to-blue-300 dark:from-zinc-900/20 dark:to-blue-900/20">
                                     <div className="flex items-center gap-2 mb-2">
