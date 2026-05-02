@@ -170,7 +170,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
                 context.lineWidth = 1 * scaleFactor
                 context.stroke()
 
-                // Draw halftone dots
+                // Draw halftone dots in blue
                 allDots.forEach((dot) => {
                     const projected = projection([dot.lng, dot.lat])
                     if (
@@ -182,7 +182,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
                     ) {
                         context.beginPath()
                         context.arc(projected[0], projected[1], 1.2 * scaleFactor, 0, 2 * Math.PI)
-                        context.fillStyle = resolvedTheme === 'dark' ? "#999999" : "#666666"
+                        context.fillStyle = resolvedTheme === 'dark' ? "#3b82f6" : "#2563eb"
                         context.fill()
                     }
                 })

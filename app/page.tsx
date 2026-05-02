@@ -14,6 +14,8 @@ import Footer from '@/components/Footer';
 import Testimonials from '@/components/Testimonials';
 import Logos from '@/components/Logos';
 import InteractiveDitherObject from '@/components/ui/interactive-dither-object';
+import CTADitherObject from '@/components/ui/cta-dither-object';
+import Button from '@/components/ui/Button';
 
 export default function Home() {
     return (
@@ -36,9 +38,7 @@ export default function Home() {
                         <div className="h-[1px] bg-zinc-200 dark:bg-zinc-800 flex-grow mx-8 hidden md:block"></div>
                         <div className="flex flex-col sm:flex-row items-center gap-4">
                             <span className="text-zinc-500 text-base">Schedule a demo, today.</span>
-                            <button className="bg-zinc-900 dark:bg-white text-white dark:text-black px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors">
-                                Request a demo
-                            </button>
+                            <Button size="md">Request a demo</Button>
                         </div>
                     </div>
                 </section>
@@ -52,16 +52,16 @@ export default function Home() {
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-100 dark:from-zinc-900/40 via-white dark:via-black to-white dark:to-black pointer-events-none"></div>
                     <div className="max-w-7xl mx-auto px-6 relative z-10">
                         <div className="border border-zinc-200 dark:border-zinc-800 rounded-3xl p-12 md:p-20 flex flex-col md:flex-row items-end justify-between gap-10 bg-zinc-50/50 dark:bg-zinc-900/20 backdrop-blur-sm relative overflow-hidden">
-                            {/* Interactive Dither Background Object */}
-                            <InteractiveDitherObject className="z-0 opacity-60" gridSize={6} color="#52525b" />
+                            {/* Dedicated CTA Dither Background */}
+                            <CTADitherObject className="z-0 opacity-60" gridSize={6} color="#52525b" pixelDensity={50} />
 
                             <div className="max-w-2xl relative z-10">
                                 <h2 className="text-[44px] md:text-[54px] font-medium tracking-tight text-zinc-950 dark:text-white mb-2">See Aether Sentinel run complex security tasks.</h2>
-                                <h2 className="text-[44px] md:text-[54px] font-medium tracking-tight text-zinc-400 dark:text-zinc-500">Secure your stack.</h2>
+                                <h2 className="text-[44px] md:text-[54px] font-medium tracking-tight bg-gradient-to-br from-blue-600 to-white dark:from-blue-400 dark:to-white bg-clip-text text-transparent">Secure your stack.</h2>
                             </div>
-                            <button className="bg-zinc-900 dark:bg-white text-white dark:text-black px-8 py-3 rounded-full text-lg font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors whitespace-nowrap relative z-10">
-                                Request a demo
-                            </button>
+                            <div className="relative z-10 whitespace-nowrap">
+                                <Button size="lg">Request a demo</Button>
+                            </div>
                         </div>
                     </div>
                 </section>

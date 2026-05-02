@@ -35,11 +35,11 @@ const testimonials = [
 ];
 
 const TestimonialCard = ({ item }: { item: typeof testimonials[0] }) => (
-    <div className="flex-shrink-0 w-[400px] md:w-[450px] p-8 rounded-2xl border border-zinc-200 dark:border-white/5 bg-zinc-50/50 dark:bg-zinc-900/10 backdrop-blur-md group hover:border-zinc-300 dark:hover:border-white/10 transition-all duration-500 hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-white/5">
-        <div className="flex flex-col h-full justify-between gap-8">
+    <div className="flex-shrink-0 w-[400px] md:w-[450px] p-1.5 md:p-2 rounded-3xl bg-gradient-to-br from-blue-300/30 via-white/20 to-blue-400/30 dark:from-blue-600/10 dark:via-zinc-900/20 dark:to-blue-800/20 backdrop-blur-2xl border border-white/60 dark:border-blue-300/10 shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(255,255,255,0.3)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(255,255,255,0.05)] overflow-hidden group">
+        <div className="relative z-10 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-md rounded-2xl p-8 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)] h-full flex flex-col justify-between gap-8 hover:shadow-2xl hover:shadow-blue-500/10 dark:hover:shadow-blue-500/10 transition-shadow duration-500">
             <div className="relative">
                 <svg
-                    className="absolute -top-4 -left-4 h-8 w-8 text-zinc-200 dark:text-zinc-800 opacity-50"
+                    className="absolute -top-4 -left-4 h-8 w-8 text-blue-200 dark:text-blue-900/30 opacity-50"
                     fill="currentColor"
                     viewBox="0 0 32 32"
                     aria-hidden="true"
@@ -52,12 +52,12 @@ const TestimonialCard = ({ item }: { item: typeof testimonials[0] }) => (
             </div>
 
             <div className="flex items-center gap-4">
-                <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-zinc-200 to-zinc-300 dark:from-zinc-800 dark:to-zinc-700 flex items-center justify-center text-zinc-500 dark:text-zinc-400 font-bold text-xs">
+                <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-blue-100 to-blue-200 dark:from-blue-900/50 dark:to-blue-800/50 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-xs shadow-inner">
                     {item.author.split(' ').map(n => n[0]).join('')}
                 </div>
                 <div className="flex flex-col">
                     <span className="text-zinc-950 dark:text-zinc-200 text-[15px] font-medium leading-tight">{item.author}</span>
-                    <span className="text-zinc-500 dark:text-zinc-600 text-[12px] uppercase tracking-widest font-semibold mt-1">
+                    <span className="text-blue-600 dark:text-blue-500 text-[12px] uppercase tracking-widest font-semibold mt-1">
                         {item.role} @ {item.company}
                     </span>
                 </div>

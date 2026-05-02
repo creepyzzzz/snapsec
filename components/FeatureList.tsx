@@ -2,8 +2,8 @@
 
 import React, { useRef } from 'react';
 import { Settings, Brain, Zap, Edit3, ShieldCheck } from 'lucide-react';
-import { BorderTrail } from '@/components/ui/border-trail';
 import { motion } from 'framer-motion';
+import Button from '@/components/ui/Button';
 
 const FeatureList: React.FC = () => {
     return (
@@ -57,18 +57,35 @@ const FeatureList: React.FC = () => {
                 </div>
 
                 {/* Right Side - Stack */}
-                <div className="lg:w-2/3 flex flex-col gap-4 relative z-10">
+                <div className="lg:w-2/3 flex flex-col gap-6 relative z-10">
+                    {/* Common wrapper function for the cards to keep code DRY could be used, but writing out explicitly for clarity */}
+                    
                     <motion.div 
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative"
+                        className="relative rounded-[24px] p-8 overflow-hidden shadow-[0_3px_6px_rgba(0,0,0,0.1),0_11px_11px_rgba(0,0,0,0.09),0_26px_15px_rgba(0,0,0,0.05),0_46px_18px_rgba(0,0,0,0.01)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-blue-100 dark:border-zinc-800"
                     >
-                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
-                        <Settings className="w-5 h-5 text-zinc-600 dark:text-zinc-400 mb-4" />
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Autonomous Execution</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Aether Sentinel adapts in real-time as your stack changes. Testing techniques evolve dynamically, ensuring protection never lags behind deployment.</p>
+                        {/* Background Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-bl from-blue-300 via-blue-100/40 to-transparent dark:from-blue-600/30 dark:via-zinc-900/80 dark:to-zinc-900"></div>
+                        
+                        {/* Pixel Texture */}
+                        <div 
+                            className="absolute inset-0 opacity-[0.5] dark:opacity-[0.3] pointer-events-none mix-blend-overlay"
+                            style={{ 
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3Crect x='12' y='12' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3C/svg%3E")`,
+                                backgroundSize: '24px 24px',
+                                maskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)',
+                                WebkitMaskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)'
+                            }} 
+                        />
+                        <div className="relative z-10 h-full flex flex-col justify-start">
+                            
+                            <Settings className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-4" />
+                            <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Autonomous Execution</h3>
+                            <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Aether Sentinel adapts in real-time as your stack changes. Testing techniques evolve dynamically, ensuring protection never lags behind deployment.</p>
+                        </div>
                     </motion.div>
 
                     <motion.div 
@@ -76,18 +93,33 @@ const FeatureList: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-300 dark:border-zinc-700 rounded-xl p-8 relative"
+                        className="relative rounded-[24px] p-8 overflow-hidden shadow-[0_3px_6px_rgba(0,0,0,0.1),0_11px_11px_rgba(0,0,0,0.09),0_26px_15px_rgba(0,0,0,0.05),0_46px_18px_rgba(0,0,0,0.01)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-blue-100 dark:border-zinc-800"
                     >
-                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
-                        <div className="flex justify-between items-start mb-4">
-                            <Brain className="w-5 h-5 text-zinc-950 dark:text-white" />
-                            <div className="flex gap-2">
-                                <span className="text-sm text-zinc-600 dark:text-zinc-400 font-medium px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800">Sign in</span>
-                                <button className="text-sm text-white dark:text-black font-medium px-3 py-1 rounded-full bg-zinc-900 dark:bg-white hover:bg-zinc-800 dark:hover:bg-gray-200">Request demo</button>
+                        {/* Background Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-bl from-blue-300 via-blue-100/40 to-transparent dark:from-blue-600/30 dark:via-zinc-900/80 dark:to-zinc-900"></div>
+                        
+                        {/* Pixel Texture */}
+                        <div 
+                            className="absolute inset-0 opacity-[0.5] dark:opacity-[0.3] pointer-events-none mix-blend-overlay"
+                            style={{ 
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3Crect x='12' y='12' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3C/svg%3E")`,
+                                backgroundSize: '24px 24px',
+                                maskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)',
+                                WebkitMaskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)'
+                            }} 
+                        />
+                        <div className="relative z-10 h-full flex flex-col justify-start">
+                            
+                            <div className="flex justify-between items-start mb-4">
+                                <Brain className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                <div className="flex items-center gap-2">
+                                    <span className="text-sm text-zinc-600 dark:text-zinc-400 font-medium px-2 py-1 rounded bg-zinc-200/50 dark:bg-zinc-800/50">Sign in</span>
+                                    <Button size="sm">Request demo</Button>
+                                </div>
                             </div>
+                            <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Behavioral Reasoning</h3>
+                            <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">The engine models how your applications authenticate and interact. It doesn't just scan—it reasons like a protection architect to find deep logic flaws.</p>
                         </div>
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Behavioral Reasoning</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">The engine models how your applications authenticate and interact. It doesn't just scan—it reasons like a protection architect to find deep logic flaws.</p>
                     </motion.div>
 
                     <motion.div 
@@ -95,12 +127,27 @@ const FeatureList: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative"
+                        className="relative rounded-[24px] p-8 overflow-hidden shadow-[0_3px_6px_rgba(0,0,0,0.1),0_11px_11px_rgba(0,0,0,0.09),0_26px_15px_rgba(0,0,0,0.05),0_46px_18px_rgba(0,0,0,0.01)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-blue-100 dark:border-zinc-800"
                     >
-                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
-                        <Zap className="w-5 h-5 text-zinc-600 dark:text-zinc-400 mb-4" />
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Persistent Context</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Historical data, prior findings, and validation results persist across every run. New workflows build on existing knowledge, eliminating redundant discovery.</p>
+                        {/* Background Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-bl from-blue-300 via-blue-100/40 to-transparent dark:from-blue-600/30 dark:via-zinc-900/80 dark:to-zinc-900"></div>
+                        
+                        {/* Pixel Texture */}
+                        <div 
+                            className="absolute inset-0 opacity-[0.5] dark:opacity-[0.3] pointer-events-none mix-blend-overlay"
+                            style={{ 
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3Crect x='12' y='12' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3C/svg%3E")`,
+                                backgroundSize: '24px 24px',
+                                maskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)',
+                                WebkitMaskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)'
+                            }} 
+                        />
+                        <div className="relative z-10 h-full flex flex-col justify-start">
+                            
+                            <Zap className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-4" />
+                            <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Persistent Context</h3>
+                            <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Historical data, prior findings, and validation results persist across every run. New workflows build on existing knowledge, eliminating redundant discovery.</p>
+                        </div>
                     </motion.div>
 
                     <motion.div 
@@ -108,12 +155,27 @@ const FeatureList: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.6, delay: 0.4 }}
-                        className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative"
+                        className="relative rounded-[24px] p-8 overflow-hidden shadow-[0_3px_6px_rgba(0,0,0,0.1),0_11px_11px_rgba(0,0,0,0.09),0_26px_15px_rgba(0,0,0,0.05),0_46px_18px_rgba(0,0,0,0.01)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-blue-100 dark:border-zinc-800"
                     >
-                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
-                        <Edit3 className="w-5 h-5 text-zinc-600 dark:text-zinc-400 mb-4" />
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Contemporary Intelligence</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Aether Sentinel incorporates cutting-edge protection research in real-time, ensuring you are defended against the latest 0-day exploits and attack vectors.</p>
+                        {/* Background Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-bl from-blue-300 via-blue-100/40 to-transparent dark:from-blue-600/30 dark:via-zinc-900/80 dark:to-zinc-900"></div>
+                        
+                        {/* Pixel Texture */}
+                        <div 
+                            className="absolute inset-0 opacity-[0.5] dark:opacity-[0.3] pointer-events-none mix-blend-overlay"
+                            style={{ 
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3Crect x='12' y='12' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3C/svg%3E")`,
+                                backgroundSize: '24px 24px',
+                                maskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)',
+                                WebkitMaskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)'
+                            }} 
+                        />
+                        <div className="relative z-10 h-full flex flex-col justify-start">
+                            
+                            <Edit3 className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-4" />
+                            <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Contemporary Intelligence</h3>
+                            <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">Aether Sentinel incorporates cutting-edge protection research in real-time, ensuring you are defended against the latest 0-day exploits and attack vectors.</p>
+                        </div>
                     </motion.div>
 
                     <motion.div 
@@ -121,12 +183,27 @@ const FeatureList: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.6, delay: 0.5 }}
-                        className="bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-8 hover:bg-zinc-100 dark:hover:bg-zinc-900/40 transition-colors relative"
+                        className="relative rounded-[24px] p-8 overflow-hidden shadow-[0_3px_6px_rgba(0,0,0,0.1),0_11px_11px_rgba(0,0,0,0.09),0_26px_15px_rgba(0,0,0,0.05),0_46px_18px_rgba(0,0,0,0.01)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-blue-100 dark:border-zinc-800"
                     >
-                        <BorderTrail style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} size={100} />
-                        <ShieldCheck className="w-5 h-5 text-zinc-600 dark:text-zinc-400 mb-4" />
-                        <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Verifiable Evidence</h3>
-                        <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">No more speculation. Every finding comes with a sandboxed reproduction path, clear execution context, and validated fix guidance.</p>
+                        {/* Background Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-bl from-blue-300 via-blue-100/40 to-transparent dark:from-blue-600/30 dark:via-zinc-900/80 dark:to-zinc-900"></div>
+                        
+                        {/* Pixel Texture */}
+                        <div 
+                            className="absolute inset-0 opacity-[0.5] dark:opacity-[0.3] pointer-events-none mix-blend-overlay"
+                            style={{ 
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3Crect x='12' y='12' width='8' height='8' fill='%23000000' fill-opacity='0.05' /%3E%3C/svg%3E")`,
+                                backgroundSize: '24px 24px',
+                                maskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)',
+                                WebkitMaskImage: 'linear-gradient(to bottom left, black 10%, transparent 80%)'
+                            }} 
+                        />
+                        <div className="relative z-10 h-full flex flex-col justify-start">
+                            
+                            <ShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-4" />
+                            <h3 className="text-zinc-950 dark:text-white font-medium text-lg mb-2">Verifiable Evidence</h3>
+                            <p className="text-zinc-600 dark:text-zinc-500 text-[15px]">No more speculation. Every finding comes with a sandboxed reproduction path, clear execution context, and validated fix guidance.</p>
+                        </div>
                     </motion.div>
 
                 </div>

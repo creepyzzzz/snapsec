@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
 
     // Configuration
     const PIXEL_SIZE = 6;
-    const PIXEL_DENSITY = 600; // Balanced density to define the crescent shape
+    const PIXEL_DENSITY = 1200; // Reduced density as requested
     const LIGHT_R = 700;
     const LIGHT_R_SQ = LIGHT_R * LIGHT_R;
 
@@ -81,7 +81,7 @@ const Hero: React.FC = () => {
         const p = points[i];
         
         // Stretched Vertical gradient - wide ellipse distribution
-        const yFactor = p.y / height;
+        const yFactor = p.y / height; // Adjusted to start from bottom
         const xPercent = (p.x - width / 2) / (width / 2); // -1 to 1
         
         const w1 = 0.2 * Math.sin(p.x * 0.0012 + time * 0.1);
@@ -132,7 +132,7 @@ const Hero: React.FC = () => {
   }, [resolvedTheme]);
 
   return (
-    <section className="relative pt-24 pb-32 overflow-hidden bg-white dark:bg-zinc-950">
+    <section className="relative pt-40 pb-32 -mt-16 overflow-hidden bg-white dark:bg-zinc-950">
       {/* Interactive Dither Background */}
       <canvas
         ref={canvasRef}
@@ -144,10 +144,10 @@ const Hero: React.FC = () => {
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
           background: resolvedTheme === 'dark'
-            ? 'radial-gradient(ellipse 100% 75% at 50% 105%, rgba(37, 99, 235, 0.3) 0%, rgba(37, 99, 235, 0.1) 45%, transparent 75%)'
-            : 'radial-gradient(ellipse 100% 75% at 50% 105%, rgba(37, 99, 235, 0.7) 0%, rgba(37, 99, 235, 0.2) 45%, transparent 75%)',
-          maskImage: 'radial-gradient(ellipse 100% 80% at 50% 115%, black 45%, transparent 85%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 100% 80% at 50% 115%, black 45%, transparent 85%)'
+            ? 'radial-gradient(ellipse 100% 75% at 50% -5%, rgba(37, 99, 235, 0.3) 0%, rgba(37, 99, 235, 0.1) 45%, transparent 75%)'
+            : 'radial-gradient(ellipse 100% 75% at 50% -5%, rgba(37, 99, 235, 0.7) 0%, rgba(37, 99, 235, 0.2) 45%, transparent 75%)',
+          maskImage: 'radial-gradient(ellipse 100% 80% at 50% -15%, black 45%, transparent 85%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 100% 80% at 50% -15%, black 45%, transparent 85%)'
         }}
       />
 

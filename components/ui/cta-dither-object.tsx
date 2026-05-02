@@ -3,18 +3,18 @@
 import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
-interface InteractiveDitherObjectProps {
+interface CTADitherObjectProps {
     className?: string;
     gridSize?: number;
     color?: string;
     pixelDensity?: number;
 }
 
-const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
+const CTADitherObject: React.FC<CTADitherObjectProps> = ({
     className,
-    gridSize = 6, // Slightly larger for better performance by default
-    color = '#52525b', // zinc-600
-    pixelDensity = 800 // One pixel per X square pixels
+    gridSize = 6,
+    color = '#52525b',
+    pixelDensity = 100 // High density by default for this section
 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,7 +31,6 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
 
         const DOT_SIZE = 6;
 
-
         // Points state
         let points: { x: number, y: number, isBlue: boolean, threshold: number }[] = [];
 
@@ -46,7 +45,7 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
                     x: Math.random() * width,
                     y: Math.random() * height,
                     isBlue: Math.random() < 0.03,
-                    threshold: 1.1 + Math.random() * 0.4 // Random threshold per point
+                    threshold: 1.1 + Math.random() * 0.4 
                 }));
             }
         };
@@ -54,7 +53,6 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // Reduced count for guaranteed smoothness
         const numBalls = 4;
         const balls = Array.from({ length: numBalls }).map(() => ({
             x: Math.random() * width,
@@ -70,7 +68,7 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
         const handleMouseMove = (e: MouseEvent) => {
             const rect = canvas.getBoundingClientRect();
             mouseX = e.clientX - rect.left;
-            mouseY = e.clientY - rect.top;
+            mouseY = e.clientY - mouseY;
         };
 
         window.addEventListener('mousemove', handleMouseMove);
@@ -78,7 +76,6 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
         const draw = () => {
             time += 0.015;
 
-            // Physics Update for Balls
             balls.forEach(ball => {
                 ball.vx += (Math.random() - 0.5) * 0.1;
                 ball.vy += (Math.random() - 0.5) * 0.1;
@@ -121,7 +118,6 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
                 const p = points[i];
                 let field = 0;
 
-                // Mouse Field
                 const mdx = p.x - mouseX;
                 const mdy = p.y - mouseY;
                 const mDistSq = mdx * mdx + mdy * mdy;
@@ -130,7 +126,6 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
                     field += mouseRSq / (mDistSq + 1000);
                 }
 
-                // Ball Fields
                 for (let j = 0; j < numBalls; j++) {
                     const b = ballData[j];
                     const dx = p.x - b.x;
@@ -156,7 +151,6 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
 
                 if (intensity <= 0.01) continue;
 
-                // Color Selection
                 const mdxS = p.x - mouseX;
                 const mdyS = p.y - mouseY;
                 const mDistSqS = mdxS * mdxS + mdyS * mdyS;
@@ -188,7 +182,7 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
             window.removeEventListener('mousemove', handleMouseMove);
             cancelAnimationFrame(animationFrameId);
         };
-    }, [gridSize, color]);
+    }, [gridSize, color, pixelDensity]);
 
     return (
         <canvas
@@ -198,4 +192,4 @@ const InteractiveDitherObject: React.FC<InteractiveDitherObjectProps> = ({
     );
 };
 
-export default InteractiveDitherObject;
+export default CTADitherObject;

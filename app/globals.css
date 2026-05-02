@@ -81,7 +81,7 @@ body {
 
 
 .protection-gradient {
-  background: linear-gradient(
+  background-image: linear-gradient(
     135deg,
     #2563eb 0%,
     #3b82f6 65%,
@@ -95,12 +95,16 @@ body {
 }
 
 .dark .protection-gradient {
-  background: linear-gradient(
+  background-image: linear-gradient(
     135deg,
     #3b82f6 0%,
     #60a5fa 65%,
     #ffffff 100%
   );
+  /* Ensure clipping is maintained when background changes */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 
